@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 from sqlalchemy import (
     Index,
     Integer,
@@ -7,7 +6,6 @@ from sqlalchemy import (
     String,
     DateTime,
     ForeignKey,
-    CheckConstraint,
     func
 )
 from sqlalchemy.orm import (
