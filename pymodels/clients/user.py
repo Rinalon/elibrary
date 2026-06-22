@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import (
@@ -7,7 +6,6 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Index,
-    JSON,
     CheckConstraint,
     func,
     SmallInteger
@@ -17,6 +15,7 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from pymodels.base import Base
 
 class Users(Base):
@@ -108,7 +107,7 @@ class Personaldata(Base):
         String(256),
     )
     payment: Mapped[Optional[dict]] = mapped_column(
-        JSON,
+        JSONB,
         nullable=True,
     )
 
