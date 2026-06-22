@@ -256,7 +256,7 @@ CREATE 			INDEX ON    books_data.books 				    USING gin (title gin_trgm_ops);
 CREATE 			INDEX ON 	books_data.books 				    (price);
 CREATE 			INDEX ON 	books_data.books 				    (language_id);
 
-CREATE 			INDEX ON 	books_data.authors				    (author_name);
+CREATE 			INDEX ON 	books_data.authors				    USING gin (author_name gin_trgm_ops);
 CREATE 			INDEX ON 	books_data.books_changeable		    (rating);
 CREATE 			INDEX ON 	books_data.books_changeable		    (watched);
 

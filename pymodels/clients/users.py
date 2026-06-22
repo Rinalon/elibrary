@@ -9,7 +9,8 @@ from sqlalchemy import (
     Index,
     JSON,
     CheckConstraint,
-    func, SmallInteger
+    func,
+    SmallInteger
 )
 from sqlalchemy.orm import (
     Mapped,

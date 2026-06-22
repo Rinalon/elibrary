@@ -54,7 +54,27 @@ class Author(Base):
 author_book = Table(
     "author_book",
     Base.metadata,
-    Column("author_id", Integer, ForeignKey("authors.author_id", ondelete="CASCADE"), primary_key=True),
-    Column("book_id", Integer, ForeignKey("books.book_id", ondelete="CASCADE"), primary_key=True),
+    Column(
+        "author_id",
+           Integer,
+           ForeignKey(
+               "books_data.authors.author_id",
+                ondelete="CASCADE",
+                deferrable=True,
+                initially="IMMEDIATE"
+                ),
+           primary_key=True
+    ),
+    Column(
+        "book_id",
+        Integer,
+        ForeignKey(
+            "books_data.books.book_id",
+            ondelete="CASCADE",
+            deferrable=True,
+            initially="IMMEDIATE"
+            ),
+        primary_key=True
+    ),
     schema="books_data"
 )

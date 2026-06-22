@@ -8,6 +8,7 @@ from sqlalchemy import (
     Numeric,
     ForeignKey,
     Index,
+    CheckConstraint,
     func
 )
 from sqlalchemy.orm import (
@@ -22,9 +23,12 @@ from pymodels.base import Base
 class Book(Base):
     __tablename__ = "books"
     __table_args__ = (
-        Index("idx_books_title", "title", postgresql_using='gin'),
-        Index("idx_books_price", "price"),
-        Index("idx_books_language_id", "language_id"),
+        CheckConstraint(
+            "year_of_publish BETWEEN 0 AND EXTRACT(YEAR FROM CURRENT_DATE)",
+                    name="books_year_of_publish_check"),
+        Index("books_title_idx", "title", postgresql_using='gin'),
+        Index("books_price_idx", "price"),
+        Index("books_language_id_idx", "language_id"),
         {"schema": "books_data"},
     )
 
@@ -47,7 +51,6 @@ class Book(Base):
     year_of_publish: Mapped[int] = mapped_column(
         SmallInteger,
         nullable=False,
-        check = "year_of_publish BETWEEN 0 AND EXTRACT(YEAR FROM CURRENT_DATE)"
     )
 
     publisher_id: Mapped[int] = mapped_column(
