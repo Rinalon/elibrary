@@ -7,6 +7,7 @@ from sqlalchemy import (
     Numeric,
     ForeignKey,
     UniqueConstraint,
+    CheckConstraint,
     func
 )
 from sqlalchemy.orm import (
@@ -20,6 +21,7 @@ class Review(Base):
     __tablename__ = "reviews"
     __table_args__ = (
         UniqueConstraint("user_id", "book_id", name="reviews_user_id_book_id_key"),
+        CheckConstraint("rating >= 0.00 AND rating <= 5.00", "reviews_rating_check"),
         {"schema": "books_data"}
     )
 
@@ -57,7 +59,6 @@ class Review(Base):
     rating: Mapped[float] = mapped_column(
         Numeric(3,2),
         nullable=False,
-        check="rating >= 0.00 AND rating <= 5.00",
         server_default="0.00"
     )
 

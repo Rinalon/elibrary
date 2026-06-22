@@ -1,10 +1,14 @@
-from sqlalchemy import Integer, Numeric, ForeignKey
+from sqlalchemy import Integer, Numeric, ForeignKey, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from pymodels.base import Base
 
 class UserBook(Base):
     __tablename__ = "user_book"
     __table_args__ = (
+        CheckConstraint(
+            "percentage >= 0.00 AND percentage <= 100.00",
+            "user_book_percentage_check"
+        ),
         {"schema": "books_data"}
     )
 
@@ -33,7 +37,6 @@ class UserBook(Base):
     percentage: Mapped[float] = mapped_column(
         Numeric(5,2),
         nullable=False,
-        check="percentage >= 0.00 AND percentage <= 100.00",
         server_default="0.00"
     )
 

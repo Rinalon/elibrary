@@ -5,7 +5,6 @@ from pymodels.base import Base
 class Language(Base):
     __tablename__ = "languages"
     __table_args__ = (
-
         {"schema": "books_data"}
     )
 

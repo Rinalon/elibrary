@@ -9,6 +9,7 @@ from sqlalchemy import (
     Interval,
     DateTime,
     ForeignKey,
+    CheckConstraint,
     func
 )
 from sqlalchemy.orm import (
@@ -22,7 +23,7 @@ from pymodels.base import Base
 class SubscribeType(Base):
     __tablename__ = "subscribe_types"
     __table_args__ = (
-
+        CheckConstraint("price >= 0", "subscribe_types_price_check"),
         {"schema": "subscribes_data"}
     )
 
@@ -45,7 +46,6 @@ class SubscribeType(Base):
     price: Mapped[float] = mapped_column(
         MONEY,
         nullable=False,
-        check="price >= 0",
         server_default="0"
     )
 
