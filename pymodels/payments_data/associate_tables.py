@@ -38,7 +38,8 @@ cheque_contract = Table(
                 deferrable=True,
                 initially="IMMEDIATE"
                 ),
-           primary_key=True
+           primary_key=True,
+           unique=True,
     ),
     Column(
         "contract_id",
@@ -48,7 +49,8 @@ cheque_contract = Table(
             deferrable=True,
             initially="IMMEDIATE"
             ),
-        primary_key=True
+        primary_key=True,
+        unique=True,
     ),
     schema="payments_data"
 )

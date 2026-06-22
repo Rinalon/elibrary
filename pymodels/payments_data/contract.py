@@ -29,6 +29,8 @@ class Contract(Base):
             "start_date >= contract_date AND contract_date <= CURRENT_DATE",
             name="contract_date_logic"
         ),
+        CheckConstraint("total_cost >= 0", "contracts_total_cost_check"),
+        CheckConstraint("end_date > start_date", "contracts_end_date_check"),
         {"schema": "payments_data"}
     )
 
@@ -61,7 +63,6 @@ class Contract(Base):
     total_cost: Mapped[float] = mapped_column(
         MONEY,
         nullable=False,
-        check="total_cost >= 0"
     )
 
     start_date: Mapped[date] = mapped_column(
@@ -73,7 +74,6 @@ class Contract(Base):
     end_date: Mapped[date] = mapped_column(
         Date,
         nullable=False,
-        check="end_date > start_date"
     )
 
     contract_info: Mapped[Optional[str]] = mapped_column(String(256))

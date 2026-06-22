@@ -6,6 +6,7 @@ from sqlalchemy import (
     String,
     DateTime,
     ForeignKey,
+    CheckConstraint,
     func
 )
 from sqlalchemy.orm import (
@@ -21,6 +22,7 @@ class Cheque(Base):
     __table_args__ = (
         Index("cheques_user_id_idx", "user_id"),
         Index("cheques_cheque_date_idx", "cheque_date"),
+        CheckConstraint("total_cost >= 0", "cheques_total_cost_check"),
         {"schema": "payments_data"}
     )
 
@@ -42,8 +44,7 @@ class Cheque(Base):
 
     total_cost: Mapped[float] = mapped_column(
         MONEY,
-        nullable=False,
-        check="total_cost >= 0"
+        nullable=False
     )
 
     cheque_info: Mapped[str] = mapped_column(

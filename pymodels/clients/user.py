@@ -23,6 +23,7 @@ class User(Base):
     __table_args__ = (
         CheckConstraint("LENGTH(login) >= 6", name="users_login_check"),
         Index("users_organisation_id_idx", "organisation_id"),
+        Index("organisations_owner_id_idx", "owner_id"),
         {"schema": "clients"}
     )
 
@@ -48,7 +49,7 @@ class User(Base):
         nullable=False
     )
 
-    organisation_id : Mapped[Optional[str]] = mapped_column(
+    organisation_id : Mapped[Optional[int]] = mapped_column(
         SmallInteger,
         ForeignKey("clients.organisations.organisation_id", deferrable=True),
         nullable=True,

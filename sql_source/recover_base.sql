@@ -218,9 +218,9 @@ CREATE TABLE payments_data.cheque_book (
 ;
 
 CREATE TABLE payments_data.cheque_contract (
-  cheque_id 				integer 			NOT NULL REFERENCES payments_data.cheques(cheque_id) 
+  cheque_id 				integer 			UNIQUE NULL REFERENCES payments_data.cheques(cheque_id)
   															DEFERRABLE INITIALLY IMMEDIATE
-  ,contract_id 				integer 			NOT NULL REFERENCES payments_data.contracts(contract_id) 
+  ,contract_id 				integer 			UNIQUE NULL REFERENCES payments_data.contracts(contract_id)
   															DEFERRABLE INITIALLY IMMEDIATE
   ,PRIMARY KEY(cheque_id, contract_id)
 )
