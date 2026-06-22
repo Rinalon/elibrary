@@ -2,12 +2,10 @@ from datetime import datetime
 from typing import Optional
 from sqlalchemy import (
     Integer,
-    SmallInteger,
     String,
     DateTime,
     Numeric,
     ForeignKey,
-    CheckConstraint,
     UniqueConstraint,
     func
 )
@@ -70,3 +68,4 @@ class Review(Base):
     )
 
     book: Mapped["Book"] = relationship(back_populates="reviews", uselist=False)
+    user: Mapped["User"] = relationship(back_populates="reviews", uselist=False)
