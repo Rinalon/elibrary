@@ -1,5 +1,2 @@
 .env
 init_base.sql
-
-/.idea/
-/__pycache__/
