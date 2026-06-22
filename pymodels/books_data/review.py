@@ -8,6 +8,7 @@ from sqlalchemy import (
     ForeignKey,
     UniqueConstraint,
     CheckConstraint,
+    Index,
     func
 )
 from sqlalchemy.orm import (
@@ -22,6 +23,8 @@ class Review(Base):
     __table_args__ = (
         UniqueConstraint("user_id", "book_id", name="reviews_user_id_book_id_key"),
         CheckConstraint("rating >= 0.00 AND rating <= 5.00", "reviews_rating_check"),
+        Index("reviews_rating_idx", "rating"),
+        Index("reviews_created_at_idx", "created_at"),
         {"schema": "books_data"}
     )
 
@@ -59,7 +62,6 @@ class Review(Base):
     rating: Mapped[float] = mapped_column(
         Numeric(3,2),
         nullable=False,
-        server_default="0.00"
     )
 
     created_at: Mapped[datetime] = mapped_column(

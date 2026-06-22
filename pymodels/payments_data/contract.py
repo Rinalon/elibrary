@@ -29,7 +29,7 @@ class Contract(Base):
             "start_date >= contract_date AND contract_date <= CURRENT_DATE",
             name="contract_date_logic"
         ),
-        CheckConstraint("total_cost >= 0", "contracts_total_cost_check"),
+        CheckConstraint("total_cost >= 0::money", "contracts_total_cost_check"),
         CheckConstraint("end_date > start_date", "contracts_end_date_check"),
         {"schema": "payments_data"}
     )

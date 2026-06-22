@@ -20,7 +20,11 @@ from pymodels.base import Base
 class Author(Base):
     __tablename__ = "authors"
     __table_args__ = (
-        Index("authors_author_name_idx", "author_name"),
+        Index("authors_author_name_idx",
+              "author_name",
+              postgresql_using="gin",
+              postgresql_ops={"author_name": "gin_trgm_ops"}
+        ),
         {"schema": "books_data"}
     )
 

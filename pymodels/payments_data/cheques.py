@@ -22,7 +22,7 @@ class Cheque(Base):
     __table_args__ = (
         Index("cheques_user_id_idx", "user_id"),
         Index("cheques_cheque_date_idx", "cheque_date"),
-        CheckConstraint("total_cost >= 0", "cheques_total_cost_check"),
+        CheckConstraint("total_cost >= 0::money", "cheques_total_cost_check"),
         {"schema": "payments_data"}
     )
 

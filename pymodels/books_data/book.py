@@ -18,7 +18,6 @@ from sqlalchemy.orm import (
 )
 from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy import Enum
-#from __future__ import annotations
 from pymodels.base import Base, AgeRating
 
 class Book(Base):
@@ -27,9 +26,18 @@ class Book(Base):
         CheckConstraint(
             "year_of_publish BETWEEN 0 AND EXTRACT(YEAR FROM CURRENT_DATE)",
                     name="books_year_of_publish_check"),
-        Index("books_title_idx", "title", postgresql_using='gin'),
+        CheckConstraint(
+            "price >= 0::money",
+            name="books_price_check"
+        ),
+        Index("books_title_idx",
+              "title",
+              postgresql_using="gin",
+              postgresql_ops={"title": "gin_trgm_ops"}
+        ),
         Index("books_price_idx", "price"),
         Index("books_language_id_idx", "language_id"),
+        Index("books_publisher_id_idx", "publisher_id"),
         {"schema": "books_data"},
     )
 
@@ -75,7 +83,7 @@ class Book(Base):
     )
 
     age_rating: Mapped[Optional[AgeRating]] = mapped_column(
-        Enum(AgeRating, name="age_rating_enum", schema="books_data"),
+        Enum(AgeRating, name="age_rating_enum", schema="public"),
         nullable=True
     )
 
@@ -83,7 +91,6 @@ class Book(Base):
         MONEY,
         nullable=False,
         server_default="0.00",
-        check="price >= 0::money"
     )
 
     text_url: Mapped[Optional[str]] = mapped_column(
@@ -114,7 +121,7 @@ class Book(Base):
         back_populates="books"
     )
     cheques: Mapped[list["Cheque"]] = relationship(
-        secondary="payment_data.cheque_book",
+        secondary="payments_data.cheque_book",
         back_populates="books"
     )
     subscriptions: Mapped[list["SubscribeType"]] = relationship(
@@ -122,7 +129,7 @@ class Book(Base):
         back_populates="subscriptions"
     )
     reviews: Mapped[list["Review"]] = relationship(back_populates="book")
-    user_books: Mapped[list["UserBook"]] = relationship(back_populates="books")
+    user_books: Mapped[list["UserBook"]] = relationship(back_populates="book")
 
 class BookChangeable(Base):
     __tablename__ = "books_changeable"
