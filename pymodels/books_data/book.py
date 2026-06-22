@@ -111,6 +111,10 @@ class Book(Base):
         secondary="payment_data.cheque_book",
         back_populates="books"
     )
+    subscriptions: Mapped[list["SubscribeType"]] = relationship(
+        secondary="subscribes_data.subscribe_book",
+        back_populates="subscriptions"
+    )
     reviews: Mapped[list["Review"]] = relationship(back_populates="book")
     user_books: Mapped[list["UserBook"]] = relationship(back_populates="books")
 
