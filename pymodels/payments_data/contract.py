@@ -88,6 +88,6 @@ class Contract(Base):
     organisation: Mapped["Organisation"] = relationship(back_populates="contracts", uselist=False)
     cheque: Mapped["Cheque"] = relationship(
         secondary="payments_data.cheque_contract",
-        back_populates="contract",
+        back_populates="contracts",
         uselist=False
     )

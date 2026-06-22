@@ -259,21 +259,24 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE 			INDEX ON    books_data.books 				    USING gin (title gin_trgm_ops);
 CREATE 			INDEX ON 	books_data.books 				    (price);
 CREATE 			INDEX ON 	books_data.books 				    (language_id);
+CREATE 			INDEX ON 	books_data.books 				    (publisher_id);
 
 CREATE 			INDEX ON 	books_data.authors				    USING gin (author_name gin_trgm_ops);
 CREATE 			INDEX ON 	books_data.books_changeable		    (rating);
 CREATE 			INDEX ON 	books_data.books_changeable		    (watched);
 
-
 CREATE 		 	INDEX ON 	books_data.reviews 			        (rating);
 CREATE 		 	INDEX ON 	books_data.reviews 			        (created_at);
-
 
 CREATE  		INDEX ON 	clients.users				        (organisation_id);
 CREATE  		INDEX ON 	clients.personal_data		        (user_id);
 CREATE  		INDEX ON 	clients.personal_data		        USING gin(payment);
 
+CREATE  		INDEX ON 	clients.organisations			    (owner_id);
+
 CREATE  		INDEX ON 	payments_data.cheques				(user_id);
+CREATE  		INDEX ON 	payments_data.cheques				(cheque_date);
+
 CREATE  		INDEX ON 	payments_data.contracts 			(contract_date);
 CREATE  		INDEX ON 	payments_data.contracts 			(end_date);
 CREATE  		INDEX ON 	payments_data.contracts 			(organisation_id);
