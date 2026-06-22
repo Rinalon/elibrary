@@ -1,8 +1,8 @@
 from sqlalchemy import SmallInteger, String, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from pymodels.base import Base
 
-class Languages(Base):
+class Language(Base):
     __tablename__ = "languages"
     __table_args__ = (
 
@@ -21,10 +21,11 @@ class Languages(Base):
         nullable=False,
     )
 
-class Publishers(Base):
+    books: Mapped[list["Book"]] = relationship(back_populates="language")
+
+class Publisher(Base):
     __tablename__ = "publishers"
     __table_args__ = (
-
         {"schema": "books_data"}
     )
 
@@ -44,3 +45,5 @@ class Publishers(Base):
         String(256),
         nullable=False,
     )
+
+    books: Mapped[list["Book"]] = relationship(back_populates="publisher")
