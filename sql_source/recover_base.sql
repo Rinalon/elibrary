@@ -200,10 +200,11 @@ CREATE TABLE payments_data.contracts (
   ,organisation_id 			smallint 			NOT NULL		REFERENCES clients.organisations(organisation_id)
   																		DEFERRABLE INITIALLY IMMEDIATE																	  
   ,total_cost 				money	 			NOT NULL 		CHECK(total_cost >= 0::money)
-  ,start_date				date				NOT NULL		CHECK(start_date >= CURRENT_DATE) DEFAULT CURRENT_DATE
+  ,start_date				date				NOT NULL		DEFAULT CURRENT_DATE
   ,end_date					date 				NOT NULL 		CHECK(end_date > start_date)
   ,contract_info 			varchar(256) 		
   ,contract_date 			date 				NOT NULL 		DEFAULT CURRENT_DATE
+  ,CONSTRAINT contract_date_logic CHECK (start_date >= contract_date AND contract_date <= CURRENT_DATE)
 )
 ;
 
