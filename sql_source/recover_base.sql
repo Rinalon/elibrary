@@ -1,5 +1,7 @@
 ROLLBACK;
 BEGIN;
+
+CREATE TYPE age_rating_enum AS ENUM ('0+', '6+', '12+', '16+', '18+');
 								-------------------
 								--  DELETE BASE  --
 								-------------------
@@ -76,6 +78,7 @@ CREATE TABLE books_data.books (
   																			DEFERRABLE INITIALLY IMMEDIATE 
   ,language_id 				smallint 			NOT NULL		REFERENCES books_data.languages (language_id) 
   																			DEFERRABLE INITIALLY IMMEDIATE
+  ,age_rating               age_rating_enum
   ,price 					money 				NOT NULL 		CHECK (price >= 0::money) DEFAULT 0::money
   ,text_url 				varchar(256)
   ,cover_url				varchar(256)		

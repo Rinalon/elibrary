@@ -17,8 +17,9 @@ from sqlalchemy.orm import (
     relationship,
 )
 from sqlalchemy.dialects.postgresql import MONEY
+from sqlalchemy import Enum
 #from __future__ import annotations
-from pymodels.base import Base
+from pymodels.base import Base, AgeRating
 
 class Book(Base):
     __tablename__ = "books"
@@ -71,6 +72,11 @@ class Book(Base):
             initially="IMMEDIATE"
         ),
         nullable=False
+    )
+
+    age_rating: Mapped[Optional[AgeRating]] = mapped_column(
+        Enum(AgeRating, name="age_rating_enum", schema="books_data"),
+        nullable=True
     )
 
     price: Mapped[float] = mapped_column(

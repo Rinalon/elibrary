@@ -1,5 +1,3 @@
-#subscribe_book
-
 from datetime import datetime, timedelta
 from typing import Optional
 from sqlalchemy import (
