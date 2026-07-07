@@ -23,7 +23,6 @@ class User(Base):
     __table_args__ = (
         CheckConstraint("LENGTH(login) >= 6", name="users_login_check"),
         Index("users_organisation_id_idx", "organisation_id"),
-        Index("organisations_owner_id_idx", "owner_id"),
         {"schema": "clients"}
     )
 

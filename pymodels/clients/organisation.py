@@ -20,6 +20,7 @@ from pymodels.base import Base
 class Organisation(Base):
     __tablename__ = 'organisations'
     __table_args__ = (
+        Index("organisations_owner_id_idx", "owner_id"),
         {"schema": "clients"}
     )
 

@@ -136,6 +136,9 @@ class BookChangeable(Base):
     __table_args__ = (
         Index("idx_books_changeable_rating", "rating"),
         Index("idx_books_changeable_watched", "watched"),
+        CheckConstraint("rating >= 0.00 AND rating <= 5.00", "rating"),
+        CheckConstraint("watched >= 0", "watched"),
+
         {"schema": "books_data"}
     )
 
@@ -153,14 +156,12 @@ class BookChangeable(Base):
     rating: Mapped[float] = mapped_column(
         Numeric(3,2),
         nullable=True,
-        check="rating >= 0.00 AND rating <= 5.00",
         server_default="0.00"
     )
 
     watched: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
-        check="watched >= 0",
         server_default="0",
     )
 
