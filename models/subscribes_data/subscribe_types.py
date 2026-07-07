@@ -21,6 +21,19 @@ from sqlalchemy.dialects.postgresql import MONEY
 from models.base import Base
 
 class SubscribeType(Base):
+    """
+        Модель типа подписки в системе.
+
+        Хранит данные подписки и связи с другими сущностями.
+
+        Attributes:
+            id: Уникальный идентификатор подписки
+            title (int): Название подписки
+            price (float): Стоимость
+            info (str): Информация о подписке
+            duration (timedelta): Длительност подписки
+            created_at (datetime): Дата и время создания подписки
+    """
     __tablename__ = "subscribe_types"
     __table_args__ = (
         CheckConstraint("price >= 0", "subscribe_types_price_check"),
@@ -66,6 +79,11 @@ class SubscribeType(Base):
     )
     contracts: Mapped[list["Contract"]] = relationship(back_populates="subscribe")
 
+# Ассоциативная таблица для связи чеков об оплате и контрактов (М-М).
+#
+# Эта таблица связывает:
+# - cheques (чеки) — cheque_id
+# - contracts (контракты) — contract_id
 subscribe_book = Table(
     "subscribe_book",
     Base.metadata,
