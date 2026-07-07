@@ -1,6 +1,11 @@
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from models.base import Base
 
+# Ассоциативная таблица для связи чеков об оплате и книг (М-М).
+#
+# Эта таблица связывает:
+# - cheques (чеки) — cheque_id
+# - books (книги) — book_id
 cheque_book = Table(
     "cheque_book",
     Base.metadata,
@@ -27,6 +32,11 @@ cheque_book = Table(
     schema="payments_data"
 )
 
+# Ассоциативная таблица для связи чеков об оплате и контрактов (М-М).
+#
+# Эта таблица связывает:
+# - cheques (чеки) — cheque_id
+# - contracts (контракты) — contract_id
 cheque_contract = Table(
     "cheque_contract",
     Base.metadata,

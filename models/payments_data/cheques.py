@@ -18,6 +18,18 @@ from sqlalchemy.dialects.postgresql import MONEY
 from models.base import Base
 
 class Cheque(Base):
+    """
+        Модель чека в системе.
+
+        Хранит данные платежа и связи с другими сущностями.
+
+        Attributes:
+            cheque_id: Уникальный идентификатор чека
+            user_id (int): Идентификатор пользователя (ссылается на user_id в Users)
+            total_cost (float): Полная стоимость
+            cheque_info (str): Информация о способе оплаты
+            cheque_date (datetime): Дата и время оплаты
+    """
     __tablename__ = "cheques"
     __table_args__ = (
         Index("cheques_user_id_idx", "user_id"),

@@ -19,6 +19,21 @@ from sqlalchemy.dialects.postgresql import MONEY
 from models.base import Base
 
 class Contract(Base):
+    """
+        Модель контракта подписки в системе.
+
+        Хранит данные контракта и связи с другими сущностями.
+
+        Attributes:
+            contract_id: Уникальный идентификатор контракта
+            subscribe_id (int): Идентификатор подписки (ссылается на subscribe_id в Subscribe_types)
+            organisation_id (int): Идентификатор пользователя (ссылается на organisation_id в Organisations)
+            total_cost (float): Полная стоимость контракта
+            start_date (datetime): Дата начала действия подписки
+            end_date (datetime): Дата конца действия подписки и контракта
+            contract_info (Optional[str]): информация о контракте и/или прочая информация
+            contract_date (datetime): Дата заключения контракта
+    """
     __tablename__ = "contracts"
     __table_args__ = (
         Index("contracts_contract_date_idx", "contract_date"),
