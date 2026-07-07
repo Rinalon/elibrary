@@ -1,7 +1,7 @@
-import sys
-from pathlib import Path
+#import sys
+#from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+#sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from logging.config import fileConfig
 
@@ -10,7 +10,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from pymodels import Base
+from models import Base
 from config import settings
 
 # this is the Alembic Config object, which provides

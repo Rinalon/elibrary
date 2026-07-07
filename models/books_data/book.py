@@ -18,7 +18,7 @@ from sqlalchemy.orm import (
 )
 from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy import Enum
-from pymodels.base import Base, AgeRating
+from models.base import Base, AgeRating
 
 class Book(Base):
     __tablename__ = "books"

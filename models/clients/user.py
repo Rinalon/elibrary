@@ -16,7 +16,7 @@ from sqlalchemy.orm import (
     relationship,
 )
 from sqlalchemy.dialects.postgresql import JSONB
-from pymodels.base import Base
+from models.base import Base
 
 class User(Base):
     __tablename__ = "users"

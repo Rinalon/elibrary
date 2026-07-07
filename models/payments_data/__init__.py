@@ -1,0 +1,10 @@
+from models.payments_data.contract import Contract
+from models.payments_data.cheques import Cheque
+from models.payments_data.associate_tables import cheque_book, cheque_contract
+
+__all__ = [
+    'Contract',
+    'Cheque',
+    'cheque_book',
+    'cheque_contract'
+]

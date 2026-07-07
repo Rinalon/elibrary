@@ -1,6 +1,6 @@
 from sqlalchemy import Integer, Numeric, ForeignKey, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from pymodels.base import Base
+from models.base import Base
 
 class UserBook(Base):
     __tablename__ = "user_book"

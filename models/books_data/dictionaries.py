@@ -1,6 +1,6 @@
 from sqlalchemy import SmallInteger, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from pymodels.base import Base
+from models.base import Base
 
 class Language(Base):
     __tablename__ = "languages"

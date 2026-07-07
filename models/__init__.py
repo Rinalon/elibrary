@@ -1,11 +1,11 @@
-from pymodels.base import Base, AgeRating
-from pymodels.clients import User, Personaldata, Organisation
-from pymodels.books_data import (
+from models.base import Base, AgeRating
+from models.clients import User, Personaldata, Organisation
+from models.books_data import (
     Book, BookChangeable, Author, Genre,
     Language, Publisher, UserBook, Review
 )
-from pymodels.subscribes_data import SubscribeType
-from pymodels.payments_data import Contract, Cheque, cheque_book, cheque_contract
+from models.subscribes_data import SubscribeType
+from models.payments_data import Contract, Cheque, cheque_book, cheque_contract
 
 __all__ = [
     'Base', 'AgeRating',

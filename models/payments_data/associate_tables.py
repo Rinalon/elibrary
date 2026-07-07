@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column, Integer, ForeignKey
-from pymodels.base import Base
+from models.base import Base
 
 cheque_book = Table(
     "cheque_book",

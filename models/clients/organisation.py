@@ -15,7 +15,7 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship,
 )
-from pymodels.base import Base
+from models.base import Base
 
 class Organisation(Base):
     __tablename__ = 'organisations'

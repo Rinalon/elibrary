@@ -18,7 +18,7 @@ from sqlalchemy.orm import (
     relationship,
 )
 from sqlalchemy.dialects.postgresql import MONEY
-from pymodels.base import Base
+from models.base import Base
 
 class SubscribeType(Base):
     __tablename__ = "subscribe_types"
