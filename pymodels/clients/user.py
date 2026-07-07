@@ -51,9 +51,12 @@ class User(Base):
 
     organisation_id : Mapped[Optional[int]] = mapped_column(
         SmallInteger,
-        ForeignKey("clients.organisations.organisation_id", deferrable=True),
+        ForeignKey(
+            "clients.organisations.organisation_id",
+                   deferrable=True,
+                   initially="IMMEDIATE"
+        ),
         nullable=True,
-        initially="IMMEDIATE"
     )
 
     created_at: Mapped[datetime] = mapped_column(
