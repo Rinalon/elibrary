@@ -2,7 +2,6 @@ from pydantic import BaseModel, EmailStr, Field, field_validator, model_validato
 from datetime import datetime
 from typing import Optional
 
-
 class UserCreate(BaseModel):
     """Схема для регистрации нового пользователя"""
     login: str = Field(min_length=6, max_length=256,)
@@ -47,7 +46,6 @@ class UserResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
-
 
 class UserUpdate(BaseModel):
     """Схема для обновления данных"""
