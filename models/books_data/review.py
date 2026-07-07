@@ -19,6 +19,17 @@ from sqlalchemy.orm import (
 from models.base import Base
 
 class Review(Base):
+    """
+        Модель отзывов на книги в системе.
+
+        Attributes:
+            review_id (int): Уникальный идентификатор отзыва
+            user_id (int): Идентификатор пользователя (ссылается на user_id в Users)
+            book_id (int): Идентификатор книги (ссылается на book_id в Books)
+            review (Optional[str]): Текст отзыва
+            rating (float): Оценка книги
+            created_at (datetime): Дата и время создания отзыва
+    """
     __tablename__ = "reviews"
     __table_args__ = (
         UniqueConstraint("user_id", "book_id", name="reviews_user_id_book_id_key"),

@@ -21,6 +21,24 @@ from sqlalchemy import Enum
 from models.base import Base, AgeRating
 
 class Book(Base):
+    """
+        Модель книги в системе.
+
+        Хранит основную информацию о книге и связи с другими сущностями.
+
+        Attributes:
+            book_id (int): Уникальный идентификатор книги
+            title (str): Название книги
+            description (str): Аннотация к книге
+            year_of_publish (int): Год издания
+            publisher_id (int): Идентификатор издательства (ссылается на publisher_id в Publishers)
+            language_id (int): Идентификатор языка (ссылается на language_id в Languages)
+            age_rating (AgeRating): Возрастной рейтинг
+            price (float): Цена книги
+            text_url (Optional[str]): Ссылка на текст книги
+            cover_url (Optional[str]): Ссылка на обложку книги
+            created_at (datetime): Дата и время создания записи
+    """
     __tablename__ = "books"
     __table_args__ = (
         CheckConstraint(
@@ -132,6 +150,22 @@ class Book(Base):
     user_books: Mapped[list["UserBook"]] = relationship(back_populates="book")
 
 class BookChangeable(Base):
+    """
+        Модель частоизменяемых параметров книги.
+
+        Хранит основную информацию о рейтинге и числе просмотров.
+
+        Вынесение рейтинга и количества просмотров в отдельную таблицу позволяет:
+            1. Снизить нагрузку на основную таблицу `books` при частых обновлениях.
+            2. Уменьшить блокировки основной таблицы.
+            3. Ускорить выполнение частых запросов на обновление/инкремент, работая
+                с таблицей меньшего размера и с узкоспециализированным набором индексов.
+
+        Attributes:
+            book_id (int): Уникальный идентификатор книги (ссылается на book_id в Books)
+            rating (float): Рейтинг книги
+            watched (int): Чисто просмотров
+    """
     __tablename__ = "books_changeable"
     __table_args__ = (
         Index("idx_books_changeable_rating", "rating"),

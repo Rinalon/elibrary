@@ -3,6 +3,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from models.base import Base
 
 class UserBook(Base):
+    """
+        Модель таблицы связи книги и пользователя в системе.
+
+        Attributes:
+            user_id (int): Идентификатор пользователя (ссылается на user_id в Users)
+            book_id (int): Идентификатор книги (ссылается на book_id в Books)
+            percentage (float): Прогресс чтения книги
+    """
     __tablename__ = "user_book"
     __table_args__ = (
         CheckConstraint(

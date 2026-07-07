@@ -12,6 +12,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from models.base import Base
 
 class Genre(Base):
+    """
+        Модель жанров в системе.
+
+        Attributes:
+            genre_id (int): Уникальный идентификатор жанра
+            title (str): Название жанра
+            description (str): Описание жанра
+    """
     __tablename__ = "genres"
     __table_args__ = (
         {"schema": "books_data"}
@@ -39,7 +47,14 @@ class Genre(Base):
         back_populates="genres"
     )
 
-
+# Ассоциативная таблица для связи книг и жанров (М-М).
+#
+# Эта таблица связывает:
+# - genres (жанры) — genre_id
+# - books (книги) — book_id
+#
+# Используется для того, чтобы у книги могло быть несколько жанров,
+# и у жанров могло быть несколько книг.
 book_genre = Table(
     "book_genre",
     Base.metadata,

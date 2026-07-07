@@ -18,6 +18,17 @@ from sqlalchemy.orm import (
 from models.base import Base
 
 class Author(Base):
+    """
+        Модель автора книг в системе.
+
+        Хранит имя, описание и связи с другими сущностями.
+
+        Attributes:
+            author_id (int): Уникальный идентификатор автора
+            author_name (str): Полное имя автора
+            author_info (str): Информация об авторе
+            created_at (datetime): Дата и время создания записи
+    """
     __tablename__ = "authors"
     __table_args__ = (
         Index("authors_author_name_idx",
@@ -55,6 +66,14 @@ class Author(Base):
         back_populates="authors"
     )
 
+# Ассоциативная таблица для связи авторов и книг (М-М).
+#
+# Эта таблица связывает:
+# - authors (авторы) — author_id
+# - books (книги) — book_id
+#
+# Используется для того, чтобы у книги могло быть несколько авторов,
+# и у автора могло быть несколько книг.
 author_book = Table(
     "author_book",
     Base.metadata,

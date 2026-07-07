@@ -3,6 +3,13 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from models.base import Base
 
 class Language(Base):
+    """
+        Модель языков книг в системе.
+
+        Attributes:
+            language_id (int): Уникальный идентификатор языка
+            title (str): Название языка
+    """
     __tablename__ = "languages"
     __table_args__ = (
         {"schema": "books_data"}
@@ -23,6 +30,14 @@ class Language(Base):
     books: Mapped[list["Book"]] = relationship(back_populates="language")
 
 class Publisher(Base):
+    """
+        Модель издателей книг в системе.
+
+        Attributes:
+            publisher_id (int): Уникальный идентификатор издателя
+            name (str): Название издательства
+            link (str): Ссылка на сайт издательства
+    """
     __tablename__ = "publishers"
     __table_args__ = (
         {"schema": "books_data"}
