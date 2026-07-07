@@ -19,6 +19,19 @@ from sqlalchemy.dialects.postgresql import JSONB
 from models.base import Base
 
 class User(Base):
+    """
+        Модель пользователя в системе.
+
+        Хранит учётные данные и связи с другими сущностями.
+
+        Attributes:
+            user_id (int): Уникальный идентификатор пользователя
+            login (str): Уникальный логин (от 6 до 256 символов)
+            password_hash (str): Хеш пароля
+            nickname (str): Отображаемое имя пользователя
+            organisation_id (Optional[int]): ID организации (если пользователь принадлежит к организации)
+            created_at (datetime): Дата и время регистрации
+    """
     __tablename__ = "users"
     __table_args__ = (
         CheckConstraint("LENGTH(login) >= 6", name="users_login_check"),
@@ -71,6 +84,21 @@ class User(Base):
     personal_data: Mapped["Personaldata"] = relationship(back_populates="user")
 
 class Personaldata(Base):
+    """
+        Модель персональных данных.
+        Создана для изоляции персональных данных пользователя, что позволяет быстро удалить эти данные по запросу пользователя.
+
+        Хранит контакты для двойной аутентификации, ФИО и платёжные средства пользователя.
+        Несмотря на опциональность полей email и phonenumber, что-то одно из них должно быть. Соответствующие проверки есть на уровне API и БД.
+        Attributes:
+            user_id (int): Уникальный идентификатор пользователя (ссылается на такой же user_id из таблицы Users)
+            email (Optional[str]): Email пользователя (опционально)
+            phonenumber (Optional[str]): Телефон пользователя (опционально)
+            surname (str): Фамилия пользователя
+            first_name (str): Имя пользователя
+            second_name (str): Отчество пользователя
+            payment (Optional[dict]): Платёжные данные в формате JSON
+    """
     __tablename__ = "personal_data"
     __table_args__ = (
         CheckConstraint(
