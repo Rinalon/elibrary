@@ -18,7 +18,9 @@ from sqlalchemy.orm import (
 )
 from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy import Enum
+from decimal import Decimal
 from models.base import Base, AgeRating
+
 
 class Book(Base):
     """
@@ -34,7 +36,7 @@ class Book(Base):
             publisher_id (int): Идентификатор издательства (ссылается на publisher_id в Publishers)
             language_id (int): Идентификатор языка (ссылается на language_id в Languages)
             age_rating (AgeRating): Возрастной рейтинг
-            price (float): Цена книги
+            price (Decimal): Цена книги
             text_url (Optional[str]): Ссылка на текст книги
             cover_url (Optional[str]): Ссылка на обложку книги
             created_at (datetime): Дата и время создания записи
@@ -105,7 +107,7 @@ class Book(Base):
         nullable=True
     )
 
-    price: Mapped[float] = mapped_column(
+    price: Mapped[Decimal] = mapped_column(
         MONEY,
         nullable=False,
         server_default="0.00",

@@ -1,9 +1,15 @@
-from pydantic import EmailStr, Field, field_validator, model_validator
-from datetime import date
+from pydantic import (
+    BaseModel,
+    EmailStr,
+    Field,
+    field_validator,
+    model_validator
+)
+from datetime import date, datetime
 from typing import Optional
-from base_class import ORMModel
+from response_base_model import ResponseModel
 
-class UserCreate(ORMModel):
+class UserCreate(BaseModel):
     """Схема для регистрации нового пользователя"""
     login: str = Field(min_length=6, max_length=256,)
 
@@ -15,7 +21,10 @@ class UserCreate(ORMModel):
         pattern='^\\+\\d{11,15}$',
     )
     nickname: str = Field(None, max_length=512)
-    birthdate: date
+    birthdate: date =  Field(
+        ge=date(1900, 1, 1),
+        le=datetime.now().year
+    )
     first_name: str = Field(min_length=2, max_length=256)
     surname: str = Field(min_length=2, max_length=256)
     second_name: Optional[str] = Field(None, max_length=256)
@@ -49,19 +58,20 @@ class UserCreate(ORMModel):
 
     @model_validator(mode="after")
     def create_nickname(self):
+        """Автосоздание псевдонима"""
         if self.nickname is None:
             self.nickname = self.surname + ' ' + self.firstname[0] + '.'
             if self.second_name is not None:
                 self.nickname += ' ' + self.second_name[0] + '.'
         return self
 
-class UserResponse(ORMModel):
+class UserResponse(ResponseModel):
     """Схема для ответа API"""
     user_id: int
     login: str
     nickname: str
 
-class UserUpdate(ORMModel):
+class UserUpdate(BaseModel):
     """Схема для обновления данных"""
     user_id: int
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
@@ -71,7 +81,7 @@ class UserUpdate(ORMModel):
     surname: Optional[str] = Field(None, min_length=2, max_length=256)
     second_name: Optional[str] = Field(None, max_length=256)
 
-class UserChangePass(ORMModel):
+class UserChangePass(BaseModel):
     """Схема для обновления пароля"""
     user_id: int
     old_password: str = Field(min_length=8)
