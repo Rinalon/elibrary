@@ -137,6 +137,7 @@ CREATE TABLE clients.personal_data (
   ,surname					varchar(256)
   ,first_name				varchar(256)
   ,second_name				varchar(256)
+  ,birthdate				date				NOT NULL		CHECK(birthdate BETWEEN '1900-01-01'::date AND CURRENT_DATE)
   ,payment					jsonb
   ,CONSTRAINT email_or_phone_required CHECK (email IS NOT NULL OR phonenumber IS NOT NULL)
 )

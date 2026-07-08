@@ -50,6 +50,7 @@ class UserResponse(ORMModel):
 
 class UserUpdate(ORMModel):
     """Схема для обновления данных"""
+    user_id: int
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
     email: Optional[EmailStr] = None
     phonenumber: Optional[str] = None

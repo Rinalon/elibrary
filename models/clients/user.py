@@ -4,6 +4,7 @@ from sqlalchemy import (
     Integer,
     String,
     DateTime,
+    Date,
     ForeignKey,
     Index,
     CheckConstraint,
@@ -142,6 +143,12 @@ class Personaldata(Base):
     second_name: Mapped[Optional[str]] = mapped_column(
         String(256),
     )
+
+    birthdate: Mapped[datetime] = mapped_column(
+        Date,
+        nullable=False
+    )
+
     payment: Mapped[Optional[dict]] = mapped_column(
         JSONB,
         nullable=True,
