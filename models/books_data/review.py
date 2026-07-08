@@ -9,7 +9,7 @@ from sqlalchemy import (
     UniqueConstraint,
     CheckConstraint,
     Index,
-    func
+    func, SmallInteger
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -27,13 +27,13 @@ class Review(Base):
             user_id (int): Идентификатор пользователя (ссылается на user_id в Users)
             book_id (int): Идентификатор книги (ссылается на book_id в Books)
             review (Optional[str]): Текст отзыва
-            rating (float): Оценка книги
+            rating (int): Оценка книги
             created_at (datetime): Дата и время создания отзыва
     """
     __tablename__ = "reviews"
     __table_args__ = (
         UniqueConstraint("user_id", "book_id", name="reviews_user_id_book_id_key"),
-        CheckConstraint("rating >= 0.00 AND rating <= 5.00", "reviews_rating_check"),
+        CheckConstraint("rating >= 0 AND rating <= 5", "reviews_rating_check"),
         Index("reviews_rating_idx", "rating"),
         Index("reviews_created_at_idx", "created_at"),
         {"schema": "books_data"}
@@ -70,8 +70,8 @@ class Review(Base):
         nullable=True
     )
 
-    rating: Mapped[float] = mapped_column(
-        Numeric(3,2),
+    rating: Mapped[int] = mapped_column(
+        SmallInteger,
         nullable=False,
     )
 

@@ -247,7 +247,7 @@ CREATE TABLE books_data.reviews (
   ,book_id 					integer 			NOT NULL		REFERENCES books_data.books(book_id)
   																		DEFERRABLE INITIALLY IMMEDIATE																	  
   ,review 					varchar(4096)
-  ,rating 					numeric(3,2) 		NOT NULL		CHECK (rating >= 0.00 AND rating <= 5.00)
+  ,rating 					smallint	 		NOT NULL		CHECK (rating >= 0.00 AND rating <= 5.00)
   ,created_at 				timestamp 			NOT NULL 		DEFAULT CURRENT_TIMESTAMP
   ,UNIQUE(user_id,book_id)
 )

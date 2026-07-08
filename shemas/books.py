@@ -5,6 +5,7 @@ from decimal import Decimal
 from models.base import AgeRating
 from response_base_model import ResponseModel
 
+# ====== Create =====
 class BookCreate(BaseModel):
     """Схема для создания книги"""
     title: str = Field(min_length=1, max_length=256)
@@ -19,6 +20,7 @@ class BookCreate(BaseModel):
     author_ids: List[int] = Field(min_length=1)
     genre_ids: List[int] = Field(min_length=1)
 
+# ====== Response =====
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
     book_id: int
@@ -35,6 +37,19 @@ class BookResponse(ResponseModel):
     genres: Optional[List["GenreResponse"]] = None
     reviews: Optional[List["ReviewResponse"]] = None
 
+class GenreResponse(ResponseModel):
+    genre_id: int
+    name: str
+    description: Optional[str] = None
+    most_popular_books: Optional[List["BookResponse"]] = None
+
+class AuthorResponse(ResponseModel):
+    author_id: int
+    name: str
+    description: Optional[str] = None
+    books: Optional[List["BookResponse"]] = None
+
+# ====== Filter =====
 class BookFilter(ResponseModel):
     """Схема для фильтрации книг"""
     title: Optional[str] = None
