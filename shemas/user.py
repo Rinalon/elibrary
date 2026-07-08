@@ -1,8 +1,9 @@
-from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
+from pydantic import EmailStr, Field, field_validator, model_validator
 from datetime import datetime
 from typing import Optional
+from base_class import ORMModel
 
-class UserCreate(BaseModel):
+class UserCreate(ORMModel):
     """Схема для регистрации нового пользователя"""
     login: str = Field(min_length=6, max_length=256,)
 
@@ -38,7 +39,7 @@ class UserCreate(BaseModel):
 
         return self
 
-class UserResponse(BaseModel):
+class UserResponse(ORMModel):
     """Схема для ответа API"""
     user_id: int
     login: str
@@ -47,7 +48,7 @@ class UserResponse(BaseModel):
 
     model_config = {"from_attributes": True}
 
-class UserUpdate(BaseModel):
+class UserUpdate(ORMModel):
     """Схема для обновления данных"""
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
     email: Optional[EmailStr] = None
@@ -56,7 +57,7 @@ class UserUpdate(BaseModel):
     surname: Optional[str] = Field(None, max_length=256)
     second_name: Optional[str] = Field(None, max_length=256)
 
-class UserChangePass(BaseModel):
+class UserChangePass(ORMModel):
     """Схема для обновления пароля"""
     user_id: int
     old_password: str = Field(min_length=8)
