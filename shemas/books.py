@@ -31,20 +31,20 @@ class BookResponse(ResponseModel):
     price: Decimal
     cover_url: Optional[str]
     text_url: Optional[str]
-    rating: Optional[Decimal]
+    rating: Optional[float]
     watched: int
     authors: Optional[List["AuthorResponse"]] = None
     genres: Optional[List["GenreResponse"]] = None
     reviews: Optional[List["ReviewResponse"]] = None
 
 class GenreResponse(ResponseModel):
-    genre_id: int
+    """Схема для получения данных о жанре"""
     name: str
     description: Optional[str] = None
     most_popular_books: Optional[List["BookResponse"]] = None
 
 class AuthorResponse(ResponseModel):
-    author_id: int
+    """Схема для получения данных об авторе"""
     name: str
     description: Optional[str] = None
     books: Optional[List["BookResponse"]] = None
