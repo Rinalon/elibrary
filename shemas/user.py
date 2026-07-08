@@ -1,5 +1,5 @@
 from pydantic import EmailStr, Field, field_validator, model_validator
-from datetime import datetime
+from datetime import date
 from typing import Optional
 from base_class import ORMModel
 
@@ -14,15 +14,23 @@ class UserCreate(ORMModel):
         None,
         pattern='^\\+\\d{11,15}$',
     )
-
-    nickname: str = Field(min_length=2, max_length=512)
-    first_name: Optional[str] = Field(None, max_length=256)
-    surname: Optional[str] = Field(None, max_length=256)
+    nickname: str = Field(None, max_length=512)
+    birthdate: date
+    first_name: str = Field(min_length=2, max_length=256)
+    surname: str = Field(min_length=2, max_length=256)
     second_name: Optional[str] = Field(None, max_length=256)
+
+    @field_validator("nickname", mode="before")
+    @classmethod
+    def validate_nickname(cls, v):
+        """Валидация псевдонима для пользователя"""
+        if v.isdigit():
+            raise ValueError("Nickname must have at least one letter")
+        return v
 
     @field_validator("password")
     @classmethod
-    def validate_password(cls, v: str) -> str:
+    def validate_password(cls, v: str):
         """Дополнительная валидация пароля"""
         if not any(c.isdigit() for c in v):
             raise ValueError("Password must contain at least one digit")
@@ -31,7 +39,7 @@ class UserCreate(ORMModel):
         return v
 
     @model_validator(mode="after")
-    def validate_email_or_phonenumber(self) -> "UserCreate":
+    def validate_email_or_phonenumber(self):
         """Проверка, что введён или email, или phonenumber"""
 
         if self.email is None and self.phonenumber is None:
@@ -39,14 +47,19 @@ class UserCreate(ORMModel):
 
         return self
 
+    @model_validator(mode="after")
+    def create_nickname(self):
+        if self.nickname is None:
+            self.nickname = self.surname + ' ' + self.firstname[0] + '.'
+            if self.second_name is not None:
+                self.nickname += ' ' + self.second_name[0] + '.'
+        return self
+
 class UserResponse(ORMModel):
     """Схема для ответа API"""
     user_id: int
     login: str
     nickname: str
-    created_at: datetime
-
-    model_config = {"from_attributes": True}
 
 class UserUpdate(ORMModel):
     """Схема для обновления данных"""
@@ -54,8 +67,8 @@ class UserUpdate(ORMModel):
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
     email: Optional[EmailStr] = None
     phonenumber: Optional[str] = None
-    first_name: Optional[str] = Field(None, max_length=256)
-    surname: Optional[str] = Field(None, max_length=256)
+    first_name: Optional[str] = Field(None, min_length=2, max_length=256)
+    surname: Optional[str] = Field(None, min_length=2, max_length=256)
     second_name: Optional[str] = Field(None, max_length=256)
 
 class UserChangePass(ORMModel):
@@ -76,7 +89,7 @@ class UserChangePass(ORMModel):
         return v
 
     @model_validator(mode="after")
-    def validate_passwords_match(self):
+    def check_passwords_match(self):
         """Проверка совпадения паролей"""
         if self.old_password == self.new_password:
             raise ValueError("Old and new passwords must be different")

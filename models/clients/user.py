@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 from sqlalchemy import (
     Integer,
@@ -98,6 +98,7 @@ class Personaldata(Base):
             surname (str): Фамилия пользователя
             first_name (str): Имя пользователя
             second_name (str): Отчество пользователя
+            birthdate (date): Дата рождения пользователя
             payment (Optional[dict]): Платёжные данные в формате JSON
     """
     __tablename__ = "personal_data"
@@ -113,6 +114,10 @@ class Personaldata(Base):
         CheckConstraint(
             "email IS NOT NULL OR phonenumber IS NOT NULL",
             name="email_or_phone_required",
+        ),
+        CheckConstraint(
+            "birthdate BETWEEN '1900-01-01'::date AND CURRENT_DATE",
+            name="ck_personal_data_birthdate_check"
         ),
         Index("personaldata_payment_idx", "payment", postgresql_using='gin'),
         {"schema": "clients"}
@@ -144,7 +149,7 @@ class Personaldata(Base):
         String(256),
     )
 
-    birthdate: Mapped[datetime] = mapped_column(
+    birthdate: Mapped[date] = mapped_column(
         Date,
         nullable=False
     )
