@@ -59,21 +59,34 @@ class UserCreate(BaseModel):
     @model_validator(mode="after")
     def create_nickname(self):
         """Автосоздание псевдонима"""
-        if self.nickname is None:
+        if self.nickname is None or self.nickname == '':
             self.nickname = self.surname + ' ' + self.firstname[0] + '.'
-            if self.second_name is not None:
+            if self.second_name is not None or self.second_name == '':
                 self.nickname += ' ' + self.second_name[0] + '.'
         return self
 
 class UserResponse(ResponseModel):
-    """Схема для ответа API"""
+    """Схема для получения данных пользователя"""
     user_id: int
     login: str
     nickname: str
+    email: Optional[str] = None
+    phonenumber: Optional[str] = None
+    birthdate: Optional[date] = None
+    first_name: Optional[str] = None
+    surname: Optional[str] = None
+    second_name: Optional[str] = None
+    created_at: Optional[datetime] = None
+
+class UserShortResponse(ResponseModel):
+    """Схема для получения части данных пользователя"""
+    nickname: str
+    first_name: Optional[str] = None
+    surname: Optional[str] = None
+    second_name: Optional[str] = None
 
 class UserUpdate(BaseModel):
     """Схема для обновления данных"""
-    user_id: int
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
     email: Optional[EmailStr] = None
     phonenumber: Optional[str] = None
@@ -83,7 +96,6 @@ class UserUpdate(BaseModel):
 
 class UserChangePass(BaseModel):
     """Схема для обновления пароля"""
-    user_id: int
     old_password: str = Field(min_length=8)
     new_password: str = Field(min_length=8)
     confirm_password: str = Field(min_length=8)

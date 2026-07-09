@@ -20,6 +20,25 @@ class BookCreate(BaseModel):
     author_ids: List[int] = Field(min_length=1)
     genre_ids: List[int] = Field(min_length=1)
 
+# ====== Update =====
+class BookUpdate(BaseModel):
+    """Схема для обновления книги"""
+    title: Optional[str] = Field(min_length=1, max_length=256)
+    description: Optional[str] = Field(None, max_length=1024)
+    year_of_publish: Optional[int] = Field(ge=0, le=datetime.now().year)
+    publisher_id: Optional[int]
+    language_id: Optional[int]
+    age_rating: Optional[AgeRating] = None
+    price: Optional[Decimal] = Field(ge=0)
+    text_url: Optional[str] = Field(None, max_length=256)
+    cover_url: Optional[str] = Field(None, max_length=256)
+    author_ids: Optional[List[int]] = Field(min_length=1)
+    genre_ids: Optional[List[int]] = Field(min_length=1)
+
+class UserBookUpdate(BaseModel):
+    """Схема для обновлений прогресса чтения"""
+    percentage: float = Field(ge=0, le=100)
+
 # ====== Response =====
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
@@ -37,17 +56,6 @@ class BookResponse(ResponseModel):
     genres: Optional[List["GenreResponse"]] = None
     reviews: Optional[List["ReviewResponse"]] = None
 
-class GenreResponse(ResponseModel):
-    """Схема для получения данных о жанре"""
-    name: str
-    description: Optional[str] = None
-    most_popular_books: Optional[List["BookResponse"]] = None
-
-class AuthorResponse(ResponseModel):
-    """Схема для получения данных об авторе"""
-    name: str
-    description: Optional[str] = None
-    books: Optional[List["BookResponse"]] = None
 
 # ====== Filter =====
 class BookFilter(ResponseModel):

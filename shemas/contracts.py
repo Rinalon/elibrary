@@ -4,18 +4,6 @@ from typing import List, Optional, Literal
 from decimal import Decimal
 from response_base_model import ResponseModel
 
-class ChequeItemBase(BaseModel):
-    type: Literal["book", "contract"]
-    cost: Decimal
-    id: int
-    item_name: str
-
-class ChequeBookItem(ChequeItemBase):
-    type: Literal["book"] = "book"
-
-class ChequeContractItem(ChequeItemBase):
-    type: Literal["contract"] = "contract"
-
 # ====== Create =====
 class SubscribeTypeCreate(BaseModel):
     """Схема для создания подписки"""
@@ -34,15 +22,18 @@ class ContractCreate(BaseModel):
     end_date: date
     total_cost: Decimal = Field(ge=0)
 
-class ChequeCreate(BaseModel):
-    """"""
-    user_id: int = Field(alias='payer')
-    total_cost: Decimal = Field(ge=0)
-    cheque_info: int
-    items: List[ChequeBookItem | ChequeContractItem] = Field(default_factory=list)
+# ====== Update =====
+class SubscribeUpdate(BaseModel):
+    """Схема для изменения подписки"""
+    title: Optional[str] = Field(min_length=1, max_length=64)
+    info: Optional[str] = Field(None, max_length=512)
+    price: Optional[Decimal] = Field(ge=0)
+    duration_days: Optional[int] = Field(ge=1)
+    book_ids: Optional[list[int]]
 
 # ====== Response =====
 class SubscribeTypeResponse(ResponseModel):
+    """Схема для получения данных подписки"""
     id: int
     title: str
     info: Optional[str]
@@ -50,6 +41,7 @@ class SubscribeTypeResponse(ResponseModel):
     duration: timedelta
 
 class ContractResponse(ResponseModel):
+    """Схема для получения данных контракта"""
     contract_id: int
     subscribe_name: str
     organisation_name: str
@@ -59,9 +51,10 @@ class ContractResponse(ResponseModel):
     end_date: date
     contract_date: date
 
-class ChequeResponse(ResponseModel):
-    cheque_id: int
-    cheque_date: datetime
-    items: List[ChequeBookItem | ChequeContractItem] = Field(default_factory=list)
-    total_cost: Decimal
-    cheque_info: str
+class ContractShortResponse(ResponseModel):
+    """Схема для получения части данных контракта"""
+    contract_id: int
+    subscribe_name: str
+    start_date: date
+    end_date: date
+    contract_date: date
