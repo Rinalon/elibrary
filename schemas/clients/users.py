@@ -7,8 +7,9 @@ from pydantic import (
 )
 from datetime import date, datetime
 from typing import Optional
-from response_base_model import ResponseModel
+from shemas.response_base_model import ResponseModel
 
+# ====== Create =====
 class UserCreate(BaseModel):
     """Схема для регистрации нового пользователя"""
     login: str = Field(min_length=6, max_length=256,)
@@ -65,6 +66,7 @@ class UserCreate(BaseModel):
                 self.nickname += ' ' + self.second_name[0] + '.'
         return self
 
+# ====== Response =====
 class UserResponse(ResponseModel):
     """Схема для получения данных пользователя"""
     user_id: int
@@ -85,7 +87,8 @@ class UserShortResponse(ResponseModel):
     surname: Optional[str] = None
     second_name: Optional[str] = None
 
-class UserUpdate(BaseModel):
+# ====== Edit =====
+class UserDataEdit(BaseModel):
     """Схема для обновления данных"""
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
     email: Optional[EmailStr] = None

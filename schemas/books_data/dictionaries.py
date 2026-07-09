@@ -1,5 +1,5 @@
 from typing import Optional, List
-from response_base_model import ResponseModel
+from shemas.response_base_model import ResponseModel
 
 
 class GenreResponse(ResponseModel):

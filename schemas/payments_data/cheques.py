@@ -1,9 +1,8 @@
 from pydantic import BaseModel, Field
-from datetime import datetime, date, timedelta
-from typing import List, Optional, Literal
+from datetime import datetime
+from typing import List, Literal
 from decimal import Decimal
-from response_base_model import ResponseModel
-
+from shemas.response_base_model import ResponseModel
 
 class ChequeItemBase(BaseModel):
     """Базовый класс для объектов в чеке"""

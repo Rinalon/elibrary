@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional, List
 from decimal import Decimal
 from models.base import AgeRating
-from response_base_model import ResponseModel
+from shemas.response_base_model import ResponseModel
 
 # ====== Create =====
 class BookCreate(BaseModel):
@@ -20,8 +20,8 @@ class BookCreate(BaseModel):
     author_ids: List[int] = Field(min_length=1)
     genre_ids: List[int] = Field(min_length=1)
 
-# ====== Update =====
-class BookUpdate(BaseModel):
+# ====== Update | Edit =====
+class BookEdit(BaseModel):
     """Схема для обновления книги"""
     title: Optional[str] = Field(min_length=1, max_length=256)
     description: Optional[str] = Field(None, max_length=1024)
