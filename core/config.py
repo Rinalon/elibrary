@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from urllib.parse import quote_plus
+from pathlib import Path
 
 class Settings(BaseSettings):
     DB_HOST: str
@@ -8,7 +9,9 @@ class Settings(BaseSettings):
     DB_PASS: str
     DB_NAME: str
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).parent.parent / ".env"
+    )
 
     @property
     def database_url_async(self) -> str:
