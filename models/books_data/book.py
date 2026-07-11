@@ -16,7 +16,6 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship,
 )
-from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy import Enum
 from decimal import Decimal
 from models.base import Base, AgeRating
@@ -108,7 +107,7 @@ class Book(Base):
     )
 
     price: Mapped[Decimal] = mapped_column(
-        MONEY,
+        Numeric,
         nullable=False,
         server_default="0.00",
     )
