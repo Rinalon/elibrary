@@ -3,7 +3,8 @@ from schemas.books_data.books import (
     BookEdit,
     UserBookUpdate,
     BookResponse,
-    BookFilter
+    BookFilter,
+    BookShortResponse
 )
 
 from schemas.books_data.reviews import (
@@ -16,7 +17,9 @@ from schemas.books_data.dictionaries import (
     GenreResponse,
     AuthorResponse,
     LanguageResponse,
-    PublisherResponse
+    PublisherResponse,
+    GenreShortResponse,
+    AuthorShortResponse
 )
 
 __all__ = [
@@ -32,4 +35,7 @@ __all__ = [
     'AuthorResponse',
     'LanguageResponse',
     'PublisherResponse',
+    'GenreShortResponse',
+    'AuthorShortResponse',
+    'BookShortResponse'
 ]

@@ -1,9 +1,13 @@
+from __future__ import annotations
 from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from typing import Optional, List
 from decimal import Decimal
 from models.base import AgeRating
 from schemas.response_base_model import ResponseModel
+
+from schemas.books_data.dictionaries import AuthorShortResponse, GenreShortResponse
+from schemas.books_data.reviews import ReviewResponse
 
 # ====== Create =====
 class BookCreate(BaseModel):
@@ -40,6 +44,10 @@ class UserBookUpdate(BaseModel):
     percentage: float = Field(ge=0, le=100)
 
 # ====== Response =====
+class BookShortResponse(ResponseModel):
+    title: str
+    cover_url: Optional[str] = Field(None, max_length=256)
+
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
     book_id: int
@@ -52,8 +60,8 @@ class BookResponse(ResponseModel):
     text_url: Optional[str]
     rating: Optional[float]
     watched: int
-    authors: Optional[List["AuthorResponse"]] = None
-    genres: Optional[List["GenreResponse"]] = None
+    authors: Optional[List["AuthorShortResponse"]] = None
+    genres: Optional[List["GenreShortResponse"]] = None
     reviews: Optional[List["ReviewResponse"]] = None
 
 
@@ -78,3 +86,6 @@ class BookFilter(ResponseModel):
             if info.data["min_price"] > info.data["max_price"]:
                 raise ValueError("min_price must be <= max_price")
         return v
+
+
+BookResponse.model_rebuild()

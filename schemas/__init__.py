@@ -3,6 +3,7 @@ from schemas.books_data import (
     BookResponse, BookFilter, ReviewCreate,
     ReviewEdit, ReviewResponse, GenreResponse,
     AuthorResponse, LanguageResponse, PublisherResponse,
+    GenreShortResponse, AuthorShortResponse
 )
 from schemas.clients import (
     UserCreate, UserResponse, UserShortResponse,
