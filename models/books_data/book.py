@@ -150,6 +150,14 @@ class Book(Base):
     reviews: Mapped[list["Review"]] = relationship(back_populates="book")
     user_books: Mapped[list["UserBook"]] = relationship(back_populates="book")
 
+    @property
+    def rating(self) -> Optional[float]:
+        return self.changeable.rating if self.changeable else None
+
+    @property
+    def watched(self) -> int:
+        return self.changeable.watched if self.changeable else 0
+
 class BookChangeable(Base):
     """
         Модель частоизменяемых параметров книги.

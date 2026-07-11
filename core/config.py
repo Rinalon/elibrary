@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASS: str
     DB_NAME: str
+    DEBUG: bool = True
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent.parent / ".env"

@@ -83,3 +83,11 @@ class Review(Base):
 
     book: Mapped["Book"] = relationship(back_populates="reviews", uselist=False)
     user: Mapped["User"] = relationship(back_populates="reviews", uselist=False)
+
+    @property
+    def user_name(self) -> Optional[str]:
+        return self.user.nickname if self.user else None
+
+    @property
+    def book_name(self) -> Optional[str]:
+        return self.book.title if self.book else None
