@@ -65,5 +65,15 @@ class Organisation(Base):
         server_default=func.now()
     )
 
-    user: Mapped[list["User"]] = relationship(back_populates="organization")
-    contracts: Mapped[list["Contract"]] = relationship(back_populates="organization")
+    contracts: Mapped[list["Contract"]] = relationship(back_populates="organisation")
+
+    users: Mapped[list["User"]] = relationship(
+        back_populates="organisation",
+        foreign_keys="User.organisation_id"
+    )
+
+    owner: Mapped["User"] = relationship(
+        back_populates="owned_organisation",
+        uselist=False,
+        foreign_keys=[owner_id]
+    )

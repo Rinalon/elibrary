@@ -78,9 +78,21 @@ class User(Base):
         server_default=func.now()
     )
 
-    user_books: Mapped[list["Book"]] = relationship(back_populates="user")
+    user_books: Mapped[list["UserBook"]] = relationship(back_populates="user")
     reviews: Mapped[list["Review"]] = relationship(back_populates="user")
-    organization: Mapped["Organization"] = relationship(back_populates="user", uselist=False)
+    organisation: Mapped["Organisation"] = relationship(
+        back_populates="users",
+        uselist=False,
+        foreign_keys=[organisation_id]
+    )
+
+    owned_organisation: Mapped[Optional["Organisation"]] = relationship(
+        "Organisation",
+        uselist=False,
+        primaryjoin="User.user_id == Organisation.owner_id",
+        back_populates="owner"
+    )
+
     cheques: Mapped[list["Cheque"]] = relationship(back_populates="user")
     personal_data: Mapped["Personaldata"] = relationship(back_populates="user")
 

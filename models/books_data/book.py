@@ -146,7 +146,7 @@ class Book(Base):
     )
     subscriptions: Mapped[list["SubscribeType"]] = relationship(
         secondary="subscribes_data.subscribe_book",
-        back_populates="subscriptions"
+        back_populates="books"
     )
     reviews: Mapped[list["Review"]] = relationship(back_populates="book")
     user_books: Mapped[list["UserBook"]] = relationship(back_populates="book")
