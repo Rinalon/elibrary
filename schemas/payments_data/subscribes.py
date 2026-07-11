@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from datetime import timedelta
 from typing import Optional
 from decimal import Decimal
-from shemas.response_base_model import ResponseModel
+from schemas.response_base_model import ResponseModel
 
 # ====== Create =====
 class SubscribeTypeCreate(BaseModel):

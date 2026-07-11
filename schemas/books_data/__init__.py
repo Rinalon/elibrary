@@ -1,4 +1,4 @@
-from books import (
+from schemas.books_data.books import (
     BookCreate,
     BookEdit,
     UserBookUpdate,
@@ -6,13 +6,13 @@ from books import (
     BookFilter
 )
 
-from reviews import (
+from schemas.books_data.reviews import (
     ReviewCreate,
     ReviewEdit,
     ReviewResponse
 )
 
-from dictionaries import (
+from schemas.books_data.dictionaries import (
     GenreResponse,
     AuthorResponse,
     LanguageResponse,

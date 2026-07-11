@@ -7,7 +7,7 @@ from pydantic import (
 )
 from datetime import date, datetime
 from typing import Optional
-from shemas.response_base_model import ResponseModel
+from schemas.response_base_model import ResponseModel
 
 # ====== Create =====
 class UserCreate(BaseModel):
@@ -24,7 +24,7 @@ class UserCreate(BaseModel):
     nickname: str = Field(None, max_length=512)
     birthdate: date =  Field(
         ge=date(1900, 1, 1),
-        le=datetime.now().year
+        le=datetime.now().date()
     )
     first_name: str = Field(min_length=2, max_length=256)
     surname: str = Field(min_length=2, max_length=256)

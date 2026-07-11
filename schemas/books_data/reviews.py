@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional
-from shemas.response_base_model import ResponseModel
+from schemas.response_base_model import ResponseModel
 
 class ReviewCreate(BaseModel):
     """Схема для создания отзыва"""

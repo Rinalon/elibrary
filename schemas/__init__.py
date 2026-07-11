@@ -1,6 +1,20 @@
-from books_data import *
-from clients import *
-from payments_data import *
+from schemas.books_data import (
+    BookCreate, BookEdit, UserBookUpdate,
+    BookResponse, BookFilter, ReviewCreate,
+    ReviewEdit, ReviewResponse, GenreResponse,
+    AuthorResponse, LanguageResponse, PublisherResponse,
+)
+from schemas.clients import (
+    UserCreate, UserResponse, UserShortResponse,
+    UserDataEdit, UserChangePass, OrganisationCreate,
+    OrganisationEdit, OrganisationResponse,
+)
+from schemas.payments_data import (
+    ContractCreate, ContractResponse, ContractShortResponse,
+    SubscribeTypeCreate, SubscribeEdit, SubscribeTypeResponse,
+    ChequeCreate, ChequeResponse, ChequeItemBase, ChequeBookItem,
+    ChequeContractItem,
+)
 
 __all__ = [
     'BookCreate', 'BookEdit', 'UserBookUpdate',

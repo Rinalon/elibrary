@@ -1,4 +1,4 @@
-from users import (
+from schemas.clients.users import (
     UserCreate,
     UserResponse,
     UserShortResponse,
@@ -6,7 +6,7 @@ from users import (
     UserChangePass
 )
 
-from organisations import (
+from schemas.clients.organisations import (
     OrganisationCreate,
     OrganisationEdit,
     OrganisationResponse

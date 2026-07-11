@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional, List
 from decimal import Decimal
 from models.base import AgeRating
-from shemas.response_base_model import ResponseModel
+from schemas.response_base_model import ResponseModel
 
 # ====== Create =====
 class BookCreate(BaseModel):

@@ -1,14 +1,14 @@
-from contracts import (
+from schemas.payments_data.contracts import (
     ContractCreate,
     ContractResponse,
     ContractShortResponse,
 )
-from subscribes import (
+from schemas.payments_data.subscribes import (
     SubscribeTypeCreate,
     SubscribeEdit,
     SubscribeTypeResponse,
 )
-from cheques import (
+from schemas.payments_data.cheques import (
     ChequeCreate,
     ChequeResponse,
     ChequeItemBase,

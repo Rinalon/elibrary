@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional, List
-from shemas.response_base_model import ResponseModel
+from schemas.response_base_model import ResponseModel
 
 class OrganisationCreate(BaseModel):
     owner_id: int = Field(alias="creator", ge=1)
