@@ -1,5 +1,21 @@
 .env
+
+
 init_base.sql
 
-/.idea/
-/__pycache__/
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+
+.idea/
+.vscode/
+*.swp
+*.swo
+
+
+venv/
+env/
+.venv
