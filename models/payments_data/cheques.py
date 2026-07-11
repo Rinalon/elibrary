@@ -7,7 +7,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     CheckConstraint,
-    func
+    func, Numeric
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -55,7 +55,7 @@ class Cheque(Base):
     )
 
     total_cost: Mapped[float] = mapped_column(
-        MONEY,
+        Numeric,
         nullable=False
     )
 

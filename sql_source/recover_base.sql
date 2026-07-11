@@ -79,12 +79,13 @@ CREATE TABLE books_data.books (
   ,language_id 				smallint 			NOT NULL		REFERENCES books_data.languages (language_id) 
   																			DEFERRABLE INITIALLY IMMEDIATE
   ,age_rating               age_rating_enum
-  ,price 					money 				NOT NULL 		CHECK (price >= 0::money) DEFAULT 0::money
+  ,price 					numeric 			NOT NULL 		CHECK (price >= 0) DEFAULT 0
   ,text_url 				varchar(256)
   ,cover_url				varchar(256)		
   ,created_at 				timestamp 			NOT NULL 		DEFAULT CURRENT_TIMESTAMP
 )
 ;
+
 
 CREATE TABLE books_data.books_changeable (
   book_id					integer 			PRIMARY KEY 	REFERENCES books_data.books(book_id) 
@@ -164,7 +165,7 @@ CREATE TABLE subscribes_data.subscribe_types (
   "id" 						smallint 			PRIMARY KEY		GENERATED ALWAYS AS IDENTITY
   ,title 					varchar(64) 		NOT NULL
   ,"info"					varchar(512)
-  ,price 					money 				NOT NULL 		CHECK(price >= 0::money) DEFAULT 0::money
+  ,price 					numeric 				NOT NULL 		CHECK(price >= 0) DEFAULT 0
   ,duration 				interval 			NOT NULL
   ,created_at				timestamp			NOT NULL		DEFAULT CURRENT_TIMESTAMP
 )
@@ -188,7 +189,7 @@ CREATE TABLE payments_data.cheques (
   cheque_id 				integer 			PRIMARY KEY		GENERATED ALWAYS AS IDENTITY
   ,user_id 					integer 			NOT NULL		REFERENCES clients.users(user_id)
     																	DEFERRABLE INITIALLY IMMEDIATE															
-  ,total_cost 				money 				NOT NULL 		CHECK(total_cost >= 0::money)
+  ,total_cost 				numeric 				NOT NULL 		CHECK(total_cost >= 0)
   ,cheque_info 				varchar(128) 		NOT NULL
   ,cheque_date 				timestamp 			NOT NULL 		DEFAULT CURRENT_TIMESTAMP
 )
@@ -200,7 +201,7 @@ CREATE TABLE payments_data.contracts (
   																		DEFERRABLE INITIALLY IMMEDIATE																	  
   ,organisation_id 			smallint 			NOT NULL		REFERENCES clients.organisations(organisation_id)
   																		DEFERRABLE INITIALLY IMMEDIATE																	  
-  ,total_cost 				money	 			NOT NULL 		CHECK(total_cost >= 0::money)
+  ,total_cost 				numeric	 			NOT NULL 		CHECK(total_cost >= 0)
   ,start_date				date				NOT NULL		DEFAULT CURRENT_DATE
   ,end_date					date 				NOT NULL 		CHECK(end_date > start_date)
   ,contract_info 			varchar(256) 		

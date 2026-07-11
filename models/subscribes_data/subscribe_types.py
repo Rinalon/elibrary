@@ -57,7 +57,7 @@ class SubscribeType(Base):
     )
 
     price: Mapped[float] = mapped_column(
-        MONEY,
+        Numeric,
         nullable=False,
         server_default="0"
     )

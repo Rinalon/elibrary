@@ -76,7 +76,7 @@ class Contract(Base):
     )
 
     total_cost: Mapped[float] = mapped_column(
-        MONEY,
+        Numeric,
         nullable=False,
     )
 
