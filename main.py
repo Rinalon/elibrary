@@ -2,7 +2,8 @@ import uvicorn
 from fastapi import FastAPI
 from api.routers import (
     books_router,
-    author_router
+    author_router,
+    genre_router
 )
 
 app = FastAPI(title="E-Library API", version="1.0.0")
