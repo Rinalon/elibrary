@@ -8,7 +8,7 @@ from core.database import get_db
 books_router = APIRouter(prefix="/books", tags=["books"])
 
 
-@books_router.get("/{book_id}", response_model=BookResponse)
+@books_router.get("/{book_id}", response_model=BookResponse, response_model_exclude_none=True)
 async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
     db_book = await get_book_by_id(db, book_id)
     if not db_book:

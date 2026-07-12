@@ -52,13 +52,13 @@ class BookShortResponse(ResponseModel):
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
     title: str
-    description: Optional[str]
+    description: Optional[str] = None
     year_of_publish: int
-    age_rating: Optional[AgeRating]
+    age_rating: Optional[AgeRating] = None
     price: Decimal
-    cover_url: Optional[str]
-    text_url: Optional[str]
-    rating: Optional[float]
+    cover_url: Optional[str] = None
+    text_url: Optional[str] = None
+    rating: Optional[float] = None
     watched: int
     authors: Optional[List["AuthorShortResponse"]] = None
     genres: Optional[List["GenreShortResponse"]] = None
