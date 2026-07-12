@@ -9,7 +9,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy.dialects.postgresql import MONEY
 
 # revision identifiers, used by Alembic.
 revision: str = '37b00c69d058'
@@ -19,20 +19,18 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade():
-    # 1. Добавляем новую колонку типа NUMERIC
     op.add_column(
         'books',
         sa.Column('price_new', sa.Numeric(10, 2), nullable=True),
         schema='books_data'
     )
 
-    # 2. Копируем данные с очисткой
     op.execute("""
         UPDATE books_data.books
         SET price_new = CAST(
             replace(
                 replace(
-                    replace(price::text, ',', ''),  -- убираем все запятые
+                    replace(price::text, ',', ''),
                     '$', ''
                 ),
                 ' ', ''
@@ -41,7 +39,6 @@ def upgrade():
         WHERE price_new IS NULL
     """)
 
-    # 3. Делаем колонку NOT NULL (если нужна обязательность)
     op.alter_column(
         'books',
         'price_new',
@@ -49,13 +46,10 @@ def upgrade():
         schema='books_data'
     )
 
-    # 4. Удаляем старый CHECK constraint (если он ссылается на money)
     op.drop_constraint('books_price_check', 'books', schema='books_data', type_='check')
 
-    # 5. Удаляем старую колонку
     op.drop_column('books', 'price', schema='books_data')
 
-    # 6. Переименовываем новую колонку
     op.alter_column(
         'books',
         'price_new',
@@ -63,7 +57,6 @@ def upgrade():
         schema='books_data'
     )
 
-    # 7. Добавляем новый CHECK constraint
     op.create_check_constraint(
         'books_price_check',
         'books',
@@ -71,7 +64,6 @@ def upgrade():
         schema='books_data'
     )
 
-    # 8. Устанавливаем server_default (если нужен)
     op.alter_column(
         'books',
         'price',
@@ -80,18 +72,14 @@ def upgrade():
     )
 
 def downgrade():
-    # Откат: возвращаем тип MONEY
-    # 1. Удаляем новый CHECK
     op.drop_constraint('books_price_check', 'books', schema='books_data', type_='check')
 
-    # 2. Добавляем временную колонку MONEY
     op.add_column(
         'books',
         sa.Column('price_old', MONEY(), nullable=True),
         schema='books_data'
     )
 
-    # 3. Копируем данные обратно с преобразованием
     op.execute("""
         UPDATE books_data.books
         SET price_old = price::money
@@ -100,7 +88,6 @@ def downgrade():
     # 4. Удаляем новую колонку
     op.drop_column('books', 'price', schema='books_data')
 
-    # 5. Переименовываем старую
     op.alter_column(
         'books',
         'price_old',
@@ -108,7 +95,6 @@ def downgrade():
         schema='books_data'
     )
 
-    # 6. Делаем колонку NOT NULL
     op.alter_column(
         'books',
         'price',
@@ -116,7 +102,6 @@ def downgrade():
         schema='books_data'
     )
 
-    # 7. Восстанавливаем старый CHECK (с ::money)
     op.create_check_constraint(
         'books_price_check',
         'books',

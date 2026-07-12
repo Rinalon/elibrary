@@ -40,7 +40,6 @@ def upgrade():
         schema='subscribes_data'
     )
 
-    # 2. Чеки (cheques)
     op.drop_constraint('cheques_total_cost_check', 'cheques', schema='payments_data', type_='check')
     op.alter_column(
         'cheques',
@@ -110,7 +109,6 @@ def downgrade():
         nullable=False
     )
 
-    # Восстанавливаем старые CHECK
     op.create_check_constraint(
         'subscribe_types_price_check',
         'subscribe_types',

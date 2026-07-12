@@ -7,15 +7,6 @@ from core.database import get_db
 
 books_router = APIRouter(prefix="/books", tags=["books"])
 
-
-@books_router.get("/{book_id}", response_model=BookResponse, response_model_exclude_none=True)
-async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
-    book = await get_book_by_id(db, book_id)
-    if not book:
-        raise HTTPException(404, "Book not found")
-
-    return book
-
 @books_router.get("/", response_model=List[BookShortResponse], response_model_exclude_none=True)
 async def get_all_books(
         page: int = 1,
@@ -28,3 +19,11 @@ async def get_all_books(
         return []
 
     return books
+
+@books_router.get("/{book_id}", response_model=BookResponse, response_model_exclude_none=True)
+async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
+    book = await get_book_by_id(db, book_id)
+    if not book:
+        raise HTTPException(404, "Book not found")
+
+    return book
