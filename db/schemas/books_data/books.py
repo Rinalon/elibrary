@@ -47,6 +47,7 @@ class UserBookUpdate(BaseModel):
 # ====== Response =====
 class BookShortResponse(ResponseModel):
     title: str
+    authors: Optional[List["AuthorShortResponse"]] = None
     cover_url: Optional[str] = Field(None, max_length=256)
 
 class BookResponse(ResponseModel):

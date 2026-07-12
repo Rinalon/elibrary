@@ -23,3 +23,12 @@ async def get_book_by_id(db: AsyncSession, book_id: int):
         )
     )
     return result.unique().scalar_one_or_none()
+
+async def  get_books_paginated(db: AsyncSession, limit: int = 10, offset: int = 1):
+    result = await db.execute(
+        select(Book)
+        .options(selectinload(Book.changeable), selectinload(Book.authors))
+        .limit(limit)
+        .offset(offset)
+    )
+    return result.scalars().all()

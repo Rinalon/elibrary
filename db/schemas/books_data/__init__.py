@@ -4,7 +4,7 @@ from db.schemas.books_data.books import (
     UserBookUpdate,
     BookResponse,
     BookFilter,
-    BookShortResponse
+    BookShortResponse,
 )
 
 from db.schemas.books_data.reviews import (
