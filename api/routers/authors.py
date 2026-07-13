@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from db.schemas import AuthorResponse, AuthorShortResponse
-from db.crud.authors import get_author_by_id, get_authors_paginated
+from db.crud import get_author_by_id, get_authors_paginated
 from core.database import get_db
 
 author_router = APIRouter(prefix="/authors", tags=["authors"])

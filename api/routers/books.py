@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from db.schemas import BookResponse, BookShortResponse
-from db.crud.books import get_book_by_id, get_books_paginated
+from db.crud import get_book_by_id, get_books_paginated
 from core.database import get_db
 
 books_router = APIRouter(prefix="/books", tags=["books"])

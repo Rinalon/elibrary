@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from db.schemas import GenreResponse, GenreShortResponse
-from db.crud.genres import get_genre_by_id, get_genres
+from db.crud import get_genre_by_id, get_genres
 from core.database import get_db
 
 genre_router = APIRouter(prefix="/genres", tags=["genres"])
