@@ -6,7 +6,8 @@ from db.crud.books_data import (
     get_genres,
     get_genre_by_id,
     get_publishers,
-    get_publisher_by_id
+    get_publisher_by_id,
+    create_book,
 )
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     'get_genres',
     'get_genre_by_id',
     'get_publishers',
-    'get_publisher_by_id'
+    'get_publisher_by_id',
+    'create_book',
 ]

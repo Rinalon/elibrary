@@ -16,10 +16,9 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship,
 )
-from sqlalchemy import Enum
+from sqlalchemy import Enum as SAEnum
 from decimal import Decimal
 from db.models.base import Base, AgeRating
-
 
 class Book(Base):
     """
@@ -102,7 +101,11 @@ class Book(Base):
     )
 
     age_rating: Mapped[Optional[AgeRating]] = mapped_column(
-        Enum(AgeRating, name="age_rating_enum", schema="public"),
+        SAEnum(AgeRating,
+               name="age_rating_enum",
+               schema="public",
+               values_callable=lambda obj: [e.value for e in obj]
+        ),
         nullable=True
     )
 

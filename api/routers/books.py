@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
-from db.schemas import BookResponse, BookShortResponse
-from db.crud import get_book_by_id, get_books_paginated
+from db.schemas import BookResponse, BookShortResponse, BookCreate
+from db.crud import get_book_by_id, get_books_paginated, create_book
 from core.database import get_db
 
 books_router = APIRouter(prefix="/books", tags=["books"])
@@ -29,3 +30,14 @@ async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
         raise HTTPException(404, "Book not found")
 
     return book
+
+@books_router.post("/", )
+async def create_new_book(book_data: BookCreate, db: AsyncSession = Depends(get_db)):
+    """Создать новую книгу."""
+    try:
+        new_book = await create_book(db, book_data)
+        return new_book
+    except IntegrityError as e:
+        raise HTTPException(409, detail="Book already exists")
+    except Exception as e:
+        raise HTTPException(500, detail=str(e))
