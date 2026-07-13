@@ -47,12 +47,14 @@ class UserBookUpdate(BaseModel):
 # ====== Response =====
 class BookShortResponse(ResponseModel):
     """Схема для получения части информации о книге"""
+    book_id: int
     title: str
     cover_url: Optional[str] = Field(None, max_length=256)
     rating: Optional[float] = None
 
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
+    book_id: int
     title: str
     description: Optional[str] = None
     year_of_publish: int

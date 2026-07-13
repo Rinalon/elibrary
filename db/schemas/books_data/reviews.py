@@ -16,6 +16,7 @@ class ReviewEdit(BaseModel):
 
 class ReviewResponse(ResponseModel):
     """Схема для получения отзыва"""
+    review_id: int
     user_name: str
     rating: int
     review: Optional[str]

@@ -3,10 +3,12 @@ from typing import Optional, List
 from db.schemas.response_base_model import ResponseModel
 
 class AuthorShortResponse(ResponseModel):
+    author_id: int
     author_name: str
 
 class AuthorResponse(ResponseModel):
     """Схема для получения данных об авторе"""
+    author_id: int
     author_name: str
     description: Optional[str] = None
     books: Optional[List["BookShortResponse"]] = None
