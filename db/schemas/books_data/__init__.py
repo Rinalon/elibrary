@@ -28,6 +28,10 @@ from db.schemas.books_data.authors import (
     AuthorResponse,
 )
 
+BookResponse.model_rebuild()
+AuthorResponse.model_rebuild()
+GenreResponse.model_rebuild()
+
 __all__ = [
     'BookCreate',
     'BookEdit',
@@ -45,3 +49,4 @@ __all__ = [
     'AuthorShortResponse',
     'BookShortResponse'
 ]
+

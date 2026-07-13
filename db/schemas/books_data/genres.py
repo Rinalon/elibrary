@@ -10,3 +10,4 @@ class GenreResponse(ResponseModel):
     title: str
     description: Optional[str] = None
     most_popular_books: Optional[List["BookShortResponse"]] = None
+

@@ -1,4 +1,4 @@
-from api.routers.book_pages import books_router
+from api.routers.books import books_router
 from api.routers.authors import author_router
 from api.routers.genres import genre_router
 

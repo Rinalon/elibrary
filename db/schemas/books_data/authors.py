@@ -10,3 +10,4 @@ class AuthorResponse(ResponseModel):
     author_name: str
     description: Optional[str] = None
     books: Optional[List["BookShortResponse"]] = None
+

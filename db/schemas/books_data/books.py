@@ -92,4 +92,3 @@ class BookFilter(ResponseModel):
         return v
 
 
-BookResponse.model_rebuild()

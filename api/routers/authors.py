@@ -23,7 +23,7 @@ async def get_all_authors(
 
 @author_router.get("/{author_id}", response_model=AuthorResponse, response_model_exclude_none=True)
 async def get_author(author_id: int, db: AsyncSession = Depends(get_db)):
-    """Получение конретного автора"""
+    """Получение конкретного автора"""
     author = await get_author_by_id(db, author_id)
     if not author:
         raise HTTPException(404, "Author not found")
