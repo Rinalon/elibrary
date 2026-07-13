@@ -1,9 +1,5 @@
-from api.routers import (
-    books_router,
-    author_router,
-)
+from api.routers import routers
 
 __all__ = [
-    "books_router",
-    "author_router"
+    'routers',
 ]
