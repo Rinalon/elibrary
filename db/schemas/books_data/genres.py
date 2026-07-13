@@ -9,5 +9,5 @@ class GenreResponse(ResponseModel):
     """Схема для получения данных о жанре"""
     title: str
     description: Optional[str] = None
-    most_popular_books: Optional[List["BookShortResponse"]] = None
+    books: Optional[List["BookShortResponse"]] = None
 

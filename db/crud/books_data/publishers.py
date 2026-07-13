@@ -1,20 +1,21 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
-from db.models import Genre
+from db.models import Publisher, Book
 
-async def  get_genres(db: AsyncSession):
+
+async def  get_publishers(db: AsyncSession):
     """Функция для получения всех жанров"""
-    result = await db.execute(select(Genre))
+    result = await db.execute(select(Publisher))
     return result.scalars().all()
 
-async def get_genre_by_id(db: AsyncSession, genre_id: int):
+async def get_publisher_by_id(db: AsyncSession, publisher_id: int):
     """Функция для получения конретного жанра"""
     result = await db.execute(
-        select(Genre)
-        .where(Genre.genre_id == genre_id)
+        select(Publisher)
+        .where(Publisher.publisher_id == publisher_id)
         .options(
-            joinedload(Genre.books)
+            joinedload(Publisher.books).joinedload(Book.changeable)
         )
     )
     return result.unique().scalar_one_or_none()
