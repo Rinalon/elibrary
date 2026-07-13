@@ -10,6 +10,7 @@ app = FastAPI(title="E-Library API", version="1.0.0")
 
 app.include_router(books_router)
 app.include_router(author_router)
+app.include_router(genre_router)
 @app.get("/")
 async def root():
     return {"message": "E-Library API is running"}
