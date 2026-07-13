@@ -16,6 +16,7 @@ from db.schemas.books_data.reviews import (
 from db.schemas.books_data.dictionaries import (
     LanguageResponse,
     PublisherResponse,
+    PublisherShortResponse
 )
 
 from db.schemas.books_data.genres import (
@@ -28,9 +29,11 @@ from db.schemas.books_data.authors import (
     AuthorResponse,
 )
 
+
 BookResponse.model_rebuild()
 AuthorResponse.model_rebuild()
 GenreResponse.model_rebuild()
+PublisherResponse.model_rebuild()
 
 __all__ = [
     'BookCreate',
@@ -47,6 +50,7 @@ __all__ = [
     'PublisherResponse',
     'GenreShortResponse',
     'AuthorShortResponse',
-    'BookShortResponse'
+    'BookShortResponse',
+    'PublisherShortResponse',
 ]
 
