@@ -13,6 +13,7 @@ async def get_all_books(
         size: int = 10,
         db: AsyncSession = Depends(get_db)
 ):
+    """Получение всех книг с разбиением по страницам"""
     books = await get_books_paginated(db=db, limit=size, offset= (page - 1) * size)
 
     if not books:
@@ -22,6 +23,7 @@ async def get_all_books(
 
 @books_router.get("/{book_id}", response_model=BookResponse, response_model_exclude_none=True)
 async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
+    """Получение конкретной книги с разбиением по страницам"""
     book = await get_book_by_id(db, book_id)
     if not book:
         raise HTTPException(404, "Book not found")
