@@ -1,3 +1,4 @@
+from aiogram.utils.formatting import PhoneNumber
 from pydantic import (
     BaseModel,
     EmailStr,
@@ -9,18 +10,27 @@ from datetime import date, datetime
 from typing import Optional
 from db.schemas.response_base_model import ResponseModel
 
+class UserLogin(BaseModel):
+    login: Optional[str] = Field(min_length=6, max_length=256,)
+    email: Optional[EmailStr]
+    phone: Optional[PhoneNumber]
+    password: str = Field(min_length=8, max_length=512,)
+
+    @model_validator(mode="after")
+    def have_login_data(self):
+        if not (self.login or self.email or self.phone):
+            raise ValueError("Must have login, email or phone")
+        return self
+
 # ====== Create =====
 class UserCreate(BaseModel):
     """Схема для регистрации нового пользователя"""
     login: str = Field(min_length=6, max_length=256,)
 
-    password: str = Field(min_length=8,)
+    password: str = Field(min_length=8, max_length=512,)
 
-    email: Optional[EmailStr] = Field(None)
-    phonenumber: Optional[str] = Field(
-        None,
-        pattern='^\\+\\d{11,15}$',
-    )
+    email: Optional[EmailStr] = None
+    phonenumber: Optional[PhoneNumber] = None
     nickname: str = Field(None, max_length=512)
     birthdate: date =  Field(
         ge=date(1900, 1, 1),
