@@ -46,9 +46,10 @@ class UserBookUpdate(BaseModel):
 
 # ====== Response =====
 class BookShortResponse(ResponseModel):
+    """Схема для получения части информации о книге"""
     title: str
-    authors: Optional[List["AuthorShortResponse"]] = None
     cover_url: Optional[str] = Field(None, max_length=256)
+    rating: Optional[float] = None
 
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
@@ -61,6 +62,8 @@ class BookResponse(ResponseModel):
     text_url: Optional[str] = None
     rating: Optional[float] = None
     watched: int
+    language: Optional[str] = Field(None, alias="language_name")
+    publisher: Optional[str] = Field(None, alias="publisher_name")
     authors: Optional[List["AuthorShortResponse"]] = None
     genres: Optional[List["GenreShortResponse"]] = None
     reviews: Optional[List["ReviewResponse"]] = None

@@ -25,6 +25,8 @@ async def get_book_by_id(db: AsyncSession, book_id: int):
             joinedload(Book.authors),
             joinedload(Book.genres),
             selectinload(Book.reviews).selectinload(Review.user),
+            selectinload(Book.language),
+            selectinload(Book.publisher),
         )
     )
     return result.unique().scalar_one_or_none()

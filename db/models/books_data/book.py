@@ -158,6 +158,14 @@ class Book(Base):
     def watched(self) -> int:
         return self.changeable.watched if self.changeable else 0
 
+    @property
+    def publisher_name(self) -> str:
+        return self.publisher.name if self.publisher else None
+
+    @property
+    def language_name(self) -> str:
+        return self.language.title if self.language else None
+
 class BookChangeable(Base):
     """
         Модель частоизменяемых параметров книги.
