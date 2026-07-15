@@ -19,7 +19,7 @@ async def  get_books_paginated(db: AsyncSession, limit: int = 10, offset: int = 
         .join(Book.changeable)
         .options(joinedload(Book.changeable),
                  selectinload(Book.authors).load_only(Author.author_name))
-        .order_by(desc(Book.changeable.rating))
+        .order_by(desc(BookChangeable.rating))
         .limit(limit)
         .offset(offset)
     )
