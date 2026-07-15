@@ -1,10 +1,8 @@
-# tests/conftest.py
-
 import sys
 import asyncio
 import platform
-from pathlib import Path
 import pytest
+from pathlib import Path
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 
