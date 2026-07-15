@@ -1,7 +1,15 @@
 from sqlalchemy import select, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
-from db.models import Book, BookChangeable, Review, Author, Genre
+from db.models import (
+    Book,
+    BookChangeable,
+    Review,
+    Author,
+    Genre,
+    User,
+    Publisher
+)
 from db.schemas import BookCreate
 
 async def  get_books_paginated(db: AsyncSession, limit: int = 10, offset: int = 0):
@@ -9,8 +17,9 @@ async def  get_books_paginated(db: AsyncSession, limit: int = 10, offset: int = 
     result = await db.execute(
         select(Book)
         .join(Book.changeable)
-        .options(selectinload(Book.changeable), selectinload(Book.authors))
-        .order_by(desc(BookChangeable.rating))
+        .options(joinedload(Book.changeable),
+                 selectinload(Book.authors).load_only(Author.author_name))
+        .order_by(desc(Book.changeable.rating))
         .limit(limit)
         .offset(offset)
     )
@@ -23,11 +32,11 @@ async def get_book_by_id(db: AsyncSession, book_id: int):
         .where(Book.book_id == book_id)
         .options(
             joinedload(Book.changeable),
-            joinedload(Book.authors),
-            joinedload(Book.genres),
-            selectinload(Book.reviews).selectinload(Review.user),
-            selectinload(Book.language),
-            selectinload(Book.publisher),
+            selectinload(Book.authors),
+            selectinload(Book.genres),
+            selectinload(Book.reviews).selectinload(Review.user).load_only(User.nickname),
+            joinedload(Book.language),
+            joinedload(Book.publisher).load_only(Publisher.name),
         )
     )
     return result.unique().scalar_one_or_none()
