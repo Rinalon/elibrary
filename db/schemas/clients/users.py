@@ -1,4 +1,3 @@
-from aiogram.utils.formatting import PhoneNumber
 from pydantic import (
     BaseModel,
     EmailStr,
@@ -13,7 +12,7 @@ from db.schemas.response_base_model import ResponseModel
 class UserLogin(BaseModel):
     login: Optional[str] = Field(min_length=6, max_length=256,)
     email: Optional[EmailStr]
-    phone: Optional[PhoneNumber]
+    phonenumber: Optional[str] = Field(None, pattern=r'^\+\d{11,15}')
     password: str = Field(min_length=8, max_length=512,)
 
     @model_validator(mode="after")
@@ -30,7 +29,7 @@ class UserCreate(BaseModel):
     password: str = Field(min_length=8, max_length=512,)
 
     email: Optional[EmailStr] = None
-    phonenumber: Optional[PhoneNumber] = None
+    phonenumber: Optional[str] = Field(None, pattern=r'^\+\d{11,15}')
     nickname: str = Field(None, max_length=512)
     birthdate: date =  Field(
         ge=date(1900, 1, 1),
