@@ -2,7 +2,7 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_get_books(async_client):
-    response = await async_client.get("/books")
+    response = await async_client.get("/books/")
     assert response.status_code == 200
 
     data = response.json()
