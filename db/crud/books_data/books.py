@@ -56,7 +56,7 @@ async def create_book(db: AsyncSession, book_data: BookCreate):
     )
     db.add(new_book)
     await db.flush()
-    await db.refresh(new_book, attribute_names=["authors", "genres"])
+
     if book_data.author_ids:
         authors = await db.execute(
             select(Author).where(Author.author_id.in_(book_data.author_ids))

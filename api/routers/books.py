@@ -31,7 +31,7 @@ async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
 
     return book
 
-@books_router.post("/", )
+@books_router.post("/", response_model=BookResponse)
 async def create_new_book(book_data: BookCreate, db: AsyncSession = Depends(get_db)):
     """Создать новую книгу."""
     try:
