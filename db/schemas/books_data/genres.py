@@ -1,4 +1,5 @@
 from __future__ import annotations
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from db.schemas.response_base_model import ResponseModel
 
@@ -12,4 +13,9 @@ class GenreResponse(ResponseModel):
     title: str
     description: Optional[str] = None
     books: Optional[List["BookShortResponse"]] = None
+
+class GenreCreate(BaseModel):
+    title: str = Field(min_length=2, max_length=32)
+    description: Optional[str] = Field(None, min_length=2, max_length=512)
+    books: Optional[List[int]] = None
 

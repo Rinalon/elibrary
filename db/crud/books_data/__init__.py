@@ -13,6 +13,7 @@ from db.crud.books_data.books import (
 from db.crud.books_data.genres import (
     get_genres,
     get_genre_by_id,
+    create_genre,
 )
 
 from db.crud.books_data.publishers import (
@@ -31,4 +32,5 @@ __all__ = [
     'get_publisher_by_id',
     'create_book',
     'create_author',
+    'create_genre',
 ]
