@@ -9,7 +9,8 @@ from sqlalchemy import (
     Numeric,
     ForeignKey,
     CheckConstraint,
-    func
+    func,
+    Identity,
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -51,8 +52,8 @@ class Contract(Base):
 
     contract_id: Mapped[int] = mapped_column(
         Integer,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     subscribe_id: Mapped[int] = mapped_column(

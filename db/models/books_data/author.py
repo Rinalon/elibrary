@@ -8,6 +8,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Index,
+    Identity,
     func
 )
 from sqlalchemy.orm import (
@@ -41,8 +42,8 @@ class Author(Base):
 
     author_id: Mapped[int] = mapped_column(
         Integer,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     author_name: Mapped[str] = mapped_column(

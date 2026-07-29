@@ -9,7 +9,8 @@ from sqlalchemy import (
     Index,
     CheckConstraint,
     func,
-    SmallInteger
+    SmallInteger,
+    Identity
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -42,8 +43,8 @@ class User(Base):
 
     user_id: Mapped[int] = mapped_column(
         Integer,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     login: Mapped[str] = mapped_column(

@@ -7,7 +7,9 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     CheckConstraint,
-    func, Numeric
+    func,
+    Numeric,
+    Identity
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -39,8 +41,8 @@ class Cheque(Base):
 
     cheque_id: Mapped[int] = mapped_column(
         Integer,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     user_id: Mapped[int] = mapped_column(

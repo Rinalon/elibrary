@@ -7,6 +7,7 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     CheckConstraint,
+    Identity,
     func,
     SmallInteger
 )
@@ -49,8 +50,8 @@ class Organisation(Base):
 
     organisation_id: Mapped[int] = mapped_column(
         SmallInteger,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     organisation_name: Mapped[str] = mapped_column(

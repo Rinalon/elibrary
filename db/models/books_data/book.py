@@ -9,6 +9,7 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     CheckConstraint,
+    Identity,
     func
 )
 from sqlalchemy.orm import (
@@ -61,8 +62,8 @@ class Book(Base):
 
     book_id: Mapped[int] = mapped_column(
         Integer,
-        primary_key=True,
-        server_default=func.identity()  # GENERATED ALWAYS AS IDENTITY
+        Identity(start=1, cycle=False),
+        primary_key=True
     )
 
     title: Mapped[str] = mapped_column(

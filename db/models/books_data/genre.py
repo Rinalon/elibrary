@@ -6,7 +6,8 @@ from sqlalchemy import (
     Table,
     Column,
     Integer,
-    ForeignKey
+    ForeignKey,
+    Identity,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from db.models.base import Base
@@ -27,8 +28,8 @@ class Genre(Base):
 
     genre_id: Mapped[int] = mapped_column(
         SmallInteger,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     title: Mapped[str] = mapped_column(

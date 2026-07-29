@@ -44,15 +44,15 @@ async def get_book_by_id(db: AsyncSession, book_id: int):
 async def create_book(db: AsyncSession, book_data: BookCreate):
     """Функция для создания книги в базе"""
     new_book = Book(
-        title=book_data.title,
-        description=book_data.description,
-        year_of_publish=book_data.year_of_publish,
-        publisher_id=book_data.publisher_id,
-        language_id=book_data.language_id,
-        age_rating=book_data.age_rating,
-        price=book_data.price,
-        text_url=book_data.text_url,
-        cover_url=book_data.cover_url
+        title = book_data.title,
+        description = book_data.description,
+        year_of_publish = book_data.year_of_publish,
+        publisher_id = book_data.publisher_id,
+        language_id = book_data.language_id,
+        age_rating = book_data.age_rating,
+        price = book_data.price,
+        text_url = book_data.text_url,
+        cover_url = book_data.cover_url
     )
     db.add(new_book)
     await db.flush()

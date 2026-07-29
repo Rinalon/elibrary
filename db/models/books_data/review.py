@@ -8,7 +8,9 @@ from sqlalchemy import (
     UniqueConstraint,
     CheckConstraint,
     Index,
-    func, SmallInteger
+    func,
+    SmallInteger,
+    Identity
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -40,8 +42,8 @@ class Review(Base):
 
     review_id: Mapped[int] = mapped_column(
         Integer,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity()
     )
 
     user_id: Mapped[int] = mapped_column(

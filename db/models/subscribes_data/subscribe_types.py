@@ -11,7 +11,8 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     CheckConstraint,
-    func
+    func,
+    Identity
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -42,8 +43,8 @@ class SubscribeType(Base):
 
     id: Mapped[int] = mapped_column(
         SmallInteger,
+        Identity(start=1, cycle=False),
         primary_key=True,
-        server_default=func.identity(),
     )
 
     title: Mapped[str] = mapped_column(
