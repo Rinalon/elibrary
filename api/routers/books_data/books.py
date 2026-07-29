@@ -6,7 +6,7 @@ from db.schemas import BookResponse, BookShortResponse, BookCreate
 from db.crud import get_book_by_id, get_books_paginated, create_book
 from core.database import get_db
 
-books_router = APIRouter(prefix="/books", tags=["books"])
+books_router = APIRouter()
 
 @books_router.get("/", response_model=List[BookShortResponse], response_model_exclude_none=True)
 async def get_all_books(

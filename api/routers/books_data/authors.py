@@ -9,7 +9,7 @@ from db.crud import (
 )
 from core.database import get_db
 
-author_router = APIRouter(prefix="/authors", tags=["authors"])
+author_router = APIRouter()
 
 @author_router.get("/", response_model=List[AuthorShortResponse], response_model_exclude_none=True)
 async def get_all_authors(

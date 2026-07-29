@@ -5,7 +5,7 @@ from db.schemas import PublisherResponse, PublisherShortResponse
 from db.crud import get_publisher_by_id, get_publishers
 from core.database import get_db
 
-publisher_router = APIRouter(prefix="/publishers", tags=["publishers"])
+publisher_router = APIRouter()
 
 @publisher_router.get("/", response_model=List[PublisherShortResponse], response_model_exclude_none=True)
 async def get_all_publishers(db: AsyncSession = Depends(get_db)):

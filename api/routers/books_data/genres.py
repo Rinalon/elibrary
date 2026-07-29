@@ -5,7 +5,7 @@ from db.schemas import GenreResponse, GenreShortResponse, GenreCreate
 from db.crud import get_genre_by_id, get_genres, create_genre as db_create_genre
 from core.database import get_db
 
-genre_router = APIRouter(prefix="/genres", tags=["genres"])
+genre_router = APIRouter()
 
 @genre_router.get("/", response_model=List[GenreShortResponse], response_model_exclude_none=True)
 async def get_all_genres(db: AsyncSession = Depends(get_db)):

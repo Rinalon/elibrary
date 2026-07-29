@@ -3,7 +3,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 from db.models import Publisher, Book
 
-
 async def  get_publishers(db: AsyncSession):
     """Функция для получения всех жанров"""
     result = await db.execute(select(Publisher))
@@ -19,3 +18,4 @@ async def get_publisher_by_id(db: AsyncSession, publisher_id: int):
         )
     )
     return result.unique().scalar_one_or_none()
+
