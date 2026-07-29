@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
-from db.schemas import AuthorResponse, AuthorShortResponse
-from db.crud import get_author_by_id, get_authors_paginated
+from db.schemas import AuthorResponse, AuthorShortResponse, AuthorCreate
+from db.crud import (
+    get_author_by_id,
+    get_authors_paginated,
+    create_author as db_create_author,
+)
 from core.database import get_db
 
 author_router = APIRouter(prefix="/authors", tags=["authors"])
@@ -29,3 +33,12 @@ async def get_author(author_id: int, db: AsyncSession = Depends(get_db)):
         raise HTTPException(404, "Author not found")
 
     return author
+
+@author_router.post("/", response_model=AuthorResponse)
+async def create_author(author_data: AuthorCreate, db: AsyncSession = Depends(get_db)):
+    try:
+        new_author = await db_create_author(db, author_data)
+        return new_author
+    except Exception as e:
+        raise HTTPException(500, str(e))
+

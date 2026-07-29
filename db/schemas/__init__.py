@@ -4,7 +4,7 @@ from db.schemas.books_data import (
     ReviewEdit, ReviewResponse, GenreResponse,
     AuthorResponse, LanguageResponse, PublisherResponse,
     GenreShortResponse, AuthorShortResponse, BookShortResponse,
-    PublisherShortResponse,
+    PublisherShortResponse, AuthorCreate
 )
 from db.schemas.clients import (
     UserCreate, UserResponse, UserShortResponse,
@@ -23,7 +23,7 @@ __all__ = [
     'BookResponse', 'BookFilter', 'BookShortResponse',
     'ReviewCreate', 'ReviewEdit', 'ReviewResponse',
     'GenreResponse',
-    'AuthorResponse',
+    'AuthorResponse', 'AuthorCreate',
     'LanguageResponse',
     'PublisherResponse', 'PublisherShortResponse',
     'UserCreate', 'UserResponse', 'UserShortResponse', 'UserDataEdit', 'UserChangePass',

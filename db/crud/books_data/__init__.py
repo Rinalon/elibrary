@@ -1,6 +1,7 @@
 from db.crud.books_data.authors import (
     get_authors_paginated,
     get_author_by_id,
+    create_author
 )
 
 from db.crud.books_data.books import (
@@ -29,4 +30,5 @@ __all__ = [
     'get_publishers',
     'get_publisher_by_id',
     'create_book',
+    'create_author',
 ]
