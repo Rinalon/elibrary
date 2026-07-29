@@ -3,40 +3,37 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 from db.models import Genre, Book
 from db.schemas import GenreCreate
+from db.crud.base import BaseCRUD
+from typing import Any
 
+class GenreCRUD(BaseCRUD[Genre, GenreCreate]):
+    async def get_by_id(
+            self,
+            db: AsyncSession,
+            item_id: int,
+            *load_options: Any
+    ) -> Genre | None:
+        if load_options is None:
+            load_options = (joinedload(Genre.books).joinedload(Book.changeable))
 
-async def get_genres(db: AsyncSession):
-    """Функция для получения всех жанров"""
-    result = await db.execute(select(Genre))
-    return result.scalars().all()
+        return await super().get_by_id(db, item_id, *load_options)
 
-async def get_genre_by_id(db: AsyncSession, genre_id: int):
-    """Функция для получения конретного жанра"""
-    result = await db.execute(
-        select(Genre)
-        .where(Genre.genre_id == genre_id)
-        .options(
-            joinedload(Genre.books).joinedload(Book.changeable),
+    async def create(self, db: AsyncSession, data: GenreCreate):
+        new_genre = Genre(
+            title=data.title,
+            description=data.description,
         )
-    )
-    return result.unique().scalar_one_or_none()
+        db.add(new_genre)
+        await db.flush()
 
-async def create_genre(db: AsyncSession, data: GenreCreate):
-    new_genre = Genre(
-        title = data.title,
-        description = data.description,
-    )
-    db.add(new_genre)
-    await db.flush()
+        if data.books:
+            books = await db.execute(
+                select(Book).where(Book.book_id.in_(data.books))
+            )
 
-    if data.books:
-        books = await db.execute(
-            select(Book).where(Book.book_id.in_(data.books))
-        )
+            for book in books.scalars().all():
+                new_genre.books.append(book)
 
-        for book in books.scalars().all():
-            new_genre.books.append(book)
-
-    await db.commit()
-    await db.refresh(new_genre)
-    return new_genre
+        await db.commit()
+        await db.refresh(new_genre)
+        return new_genre

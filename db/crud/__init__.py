@@ -1,27 +1,23 @@
-from db.crud.books_data import (
-    get_authors_paginated,
-    get_author_by_id,
-    get_books_paginated,
-    get_book_by_id,
-    get_genres,
-    get_genre_by_id,
-    get_publishers,
-    get_publisher_by_id,
-    create_book,
-    create_author,
-    create_genre
-)
+from db.models import Language, Publisher
+
+from db.crud.books_data.books import BookCRUD
+from db.crud.books_data.authors import AuthorCRUD
+from db.crud.books_data.genres import GenreCRUD
+from db.crud.base import BaseCRUD
+
+# Экземпляры для моделей без специфической логики
+language_crud = BaseCRUD(Language)
+publisher_crud = BaseCRUD(Publisher)
+
+# Экземпляры для моделей со специфической логикой
+book_crud = BookCRUD()
+author_crud = AuthorCRUD()
+genre_crud = GenreCRUD()
 
 __all__ = [
-    'get_authors_paginated',
-    'get_author_by_id',
-    'get_books_paginated',
-    'get_book_by_id',
-    'get_genres',
-    'get_genre_by_id',
-    'get_publishers',
-    'get_publisher_by_id',
-    'create_book',
-    'create_author',
-    'create_genre'
+    'book_crud',
+    'author_crud',
+    'genre_crud',
+    'language_crud',
+    'publisher_crud',
 ]

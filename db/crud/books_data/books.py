@@ -1,6 +1,8 @@
 from sqlalchemy import select, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
+from typing import Any, List
+from db.crud.base import BaseCRUD, ModelType
 from db.models import (
     Book,
     BookChangeable,
@@ -12,67 +14,63 @@ from db.models import (
 )
 from db.schemas import BookCreate
 
-async def  get_books_paginated(db: AsyncSession, limit: int = 10, offset: int = 0):
-    """Функция для получения всех книг, разбитых по страницам"""
-    result = await db.execute(
-        select(Book)
-        .join(Book.changeable)
-        .options(joinedload(Book.changeable),
-                 selectinload(Book.authors).load_only(Author.author_name))
-        .order_by(desc(BookChangeable.rating))
-        .limit(limit)
-        .offset(offset)
-    )
-    return result.scalars().all()
+class BookCRUD(BaseCRUD[Book, BookCreate]):
+    async def get_paginate(
+            self,
+            db: AsyncSession,
+            limit: int = 10,
+            offset: int = 0,
+            order: Any = None,
+            *load_options: Any
+    ) -> List[ModelType]:
+        if not load_options:
+            load_options = (
+                joinedload(Book.changeable),
+                selectinload(Book.authors).load_only(Author.author_name)
+            )
 
-async def get_book_by_id(db: AsyncSession, book_id: int):
-    """Функция для получения конретной книги, разбитых по страницам"""
-    result = await db.execute(
-        select(Book)
-        .where(Book.book_id == book_id)
-        .options(
-            joinedload(Book.changeable),
-            selectinload(Book.authors),
-            selectinload(Book.genres),
-            selectinload(Book.reviews).selectinload(Review.user).load_only(User.nickname),
-            joinedload(Book.language),
-            joinedload(Book.publisher).load_only(Publisher.name),
-        )
-    )
-    return result.unique().scalar_one_or_none()
+        if order is None:
+            order = desc(BookChangeable.rating)
 
-async def create_book(db: AsyncSession, book_data: BookCreate):
-    """Функция для создания книги в базе"""
-    new_book = Book(
-        title = book_data.title,
-        description = book_data.description,
-        year_of_publish = book_data.year_of_publish,
-        publisher_id = book_data.publisher_id,
-        language_id = book_data.language_id,
-        age_rating = book_data.age_rating,
-        price = book_data.price,
-        text_url = book_data.text_url,
-        cover_url = book_data.cover_url
-    )
-    db.add(new_book)
-    await db.flush()
+        return await super().get_paginate(db, limit, offset, order, *load_options)
 
-    if book_data.author_ids:
-        authors = await db.execute(
-            select(Author).where(Author.author_id.in_(book_data.author_ids))
-        )
-        for author in authors.scalars().all():
-            new_book.authors.append(author)
+    async def get_by_id(
+            self,
+            db: AsyncSession,
+            item_id: int,
+            *load_options: Any
+    ) -> Book | None:
+        if not load_options:
+            load_options = (
+                joinedload(Book.changeable),
+                selectinload(Book.authors),
+                selectinload(Book.genres),
+                selectinload(Book.reviews).selectinload(Review.user).load_only(User.nickname),
+                joinedload(Book.language),
+                joinedload(Book.publisher).load_only(Publisher.name),
+            )
 
-    if book_data.genre_ids:
-        genres = await db.execute(
-            select(Genre).where(Genre.genre_id.in_(book_data.genre_ids))
-        )
-        for genre in genres.scalars().all():
-            new_book.genres.append(genre)
+        return await super().get_by_id(db, item_id, *load_options)
 
-    await db.commit()
+    async def create(self, db: AsyncSession, data: BookCreate) -> Book:
+        book_data = data.model_dump(exclude={"author_ids", "genre_ids"})
+        new_book = Book(**book_data)
+        db.add(new_book)
+        await db.flush()
 
-    await db.refresh(new_book)
-    return new_book
+        if data.author_ids:
+            authors = await db.execute(
+                select(Author).where(Author.author_id.in_(data.author_ids))
+            )
+            new_book.authors.extend(authors.scalars().all())
+
+        if data.genre_ids:
+            genres = await db.execute(
+                select(Genre).where(Genre.genre_id.in_(data.genre_ids))
+            )
+            new_book.genres.extend(genres.scalars().all())
+
+        await db.commit()
+        await db.refresh(new_book)
+        return new_book
 
