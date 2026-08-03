@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import Optional, List
 from pydantic import BaseModel, Field
 
-from db.schemas import BookShortResponse
 from db.schemas.response_base_model import ResponseModel
 
 # ===== Language =====

@@ -1,7 +1,7 @@
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, ClauseElement
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
-from typing import Any, List
+from typing import Any, List, Optional, Tuple
 from db.crud.base import BaseCRUD, ModelType
 from db.models import (
     Book,
@@ -20,19 +20,33 @@ class BookCRUD(BaseCRUD[Book, BookCreate]):
             db: AsyncSession,
             limit: int = 10,
             offset: int = 0,
-            order: Any = None,
-            *load_options: Any
+            order: Optional[Tuple[ClauseElement]] = None,
+            load_options: Optional[Tuple[Any]] = None,
     ) -> List[ModelType]:
-        if not load_options:
+        if order is None:
+            order = (desc(BookChangeable.rating),)
+
+        if load_options is None:
             load_options = (
-                joinedload(Book.changeable),
-                selectinload(Book.authors).load_only(Author.author_name)
+                joinedload(Book.changeable).load_only(BookChangeable.rating, BookChangeable.watched),
+                selectinload(Book.authors).load_only(Author.author_name),
             )
 
-        if order is None:
-            order = desc(BookChangeable.rating)
+        query = (
+            select(Book)
+            .join(BookChangeable, Book.book_id == BookChangeable.book_id)
+            .limit(limit)
+            .offset(offset)
+        )
 
-        return await super().get_paginate(db, limit, offset, order, *load_options)
+        for cond in order:
+            query = query.order_by(cond)
+
+        for option in load_options:
+            query = query.options(option)
+
+        result = await db.execute(query)
+        return result.unique().scalars().all()
 
     async def get_by_id(
             self,

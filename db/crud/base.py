@@ -35,12 +35,14 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType]):
         query = select(self.model).limit(limit).offset(offset)
 
         if order is None:
-            query = query.order_by(pk)
+            order = (pk,)
+
         for condition in order:
             query = query.order_by(condition)
 
-        for option in load_options:
-            query = query.options(option)
+        if load_options is not None:
+            for option in load_options:
+                query = query.options(option)
 
         result = await db.execute(query)
         return result.scalars().all()

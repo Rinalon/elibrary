@@ -1,8 +1,6 @@
 from __future__ import annotations
 from pydantic import BaseModel, Field
 from typing import Optional, List
-
-from db.schemas import BookCreate
 from db.schemas.response_base_model import ResponseModel
 
 class AuthorShortResponse(ResponseModel):
