@@ -17,7 +17,7 @@ from db.schemas import (
 )
 
 books_router = create_crud_router(
-        prefix="books",
+        prefix="/books",
         tag="books",
         crud_class=book_crud,
         response_schema=BookResponse,
@@ -27,40 +27,41 @@ books_router = create_crud_router(
 )
 
 authors_router = create_crud_router(
-    prefix="authors",
+    prefix="/authors",
     tag="authors",
     crud_class=author_crud,
-    response_schema=AuthorShortResponse,
-    short_response_schema=AuthorResponse,
+    response_schema=AuthorResponse,
+    short_response_schema=AuthorShortResponse,
     create_schema=AuthorCreate,
     paginated=True,
 )
 
 genres_router = create_crud_router(
-    prefix="genres",
+    prefix="/genres",
     tag="genres",
     crud_class=genre_crud,
-    response_schema=GenreShortResponse,
-    short_response_schema=GenreResponse,
+    response_schema=GenreResponse,
+    short_response_schema=GenreShortResponse,
     create_schema=GenreCreate,
     paginated=False,
 )
 
 publishers_router = create_crud_router(
-    prefix="publishers",
+    prefix="/publishers",
     tag="publishers",
     crud_class=publisher_crud,
-    response_schema=PublisherShortResponse,
-    short_response_schema=PublisherResponse,
+    response_schema=PublisherResponse,
+    short_response_schema=PublisherShortResponse,
     create_schema=PublisherCreate,
     paginated=False,
 )
 
 language_router = create_crud_router(
-    prefix="languages",
+    prefix="/languages",
     tag="languages",
     crud_class=language_crud,
     response_schema=LanguageResponse,
+    short_response_schema=LanguageResponse,
     create_schema=LanguageCreate,
     paginated=False,
 )

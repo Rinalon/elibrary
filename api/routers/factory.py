@@ -24,7 +24,7 @@ def create_crud_router(
     :param paginated: Использовать пагинацию (True/False)
     """
     router = APIRouter(prefix=prefix, tags=[tag])
-    crud_instance = crud_class()
+    crud_instance = crud_class
 
     # 1. GET / (список)
     if paginated:
