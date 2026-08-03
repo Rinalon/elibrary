@@ -9,7 +9,6 @@ class AuthorShortResponse(ResponseModel):
 
 class AuthorResponse(ResponseModel):
     """Схема для получения данных об авторе"""
-    author_id: int
     author_name: str
     author_info: Optional[str] = None
     books: Optional[List["BookShortResponse"]] = None

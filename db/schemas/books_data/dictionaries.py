@@ -21,7 +21,6 @@ class PublisherShortResponse(ResponseModel):
 
 class PublisherResponse(ResponseModel):
     """Схема для получения данных об издателе"""
-    publisher_id: int
     name: str
     link: str
     books: List["BookShortResponse"]

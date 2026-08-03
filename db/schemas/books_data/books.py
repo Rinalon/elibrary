@@ -54,7 +54,6 @@ class BookShortResponse(ResponseModel):
 
 class BookResponse(ResponseModel):
     """Схема для получения данных о книге"""
-    book_id: int
     title: str
     description: Optional[str] = None
     year_of_publish: int
