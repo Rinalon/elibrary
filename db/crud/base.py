@@ -15,9 +15,6 @@ ModelType = TypeVar("ModelType")
 CreateSchemaType = TypeVar("CreateSchemaType")
 
 class BaseCRUD(Generic[ModelType, CreateSchemaType]):
-    default_load_options_for_get = ()
-    default_load_options_for_list = ()
-
     def __init__(self, model: Type[ModelType]):
         self.model = model
 
