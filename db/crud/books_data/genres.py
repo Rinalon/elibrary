@@ -1,22 +1,24 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
-from db.models import Genre, Book
+from db.models import Genre, Book, BookChangeable
 from db.schemas import GenreCreate
 from db.crud.base import BaseCRUD
-from typing import Any
+from typing import Any, Optional, Tuple
 
 class GenreCRUD(BaseCRUD[Genre, GenreCreate]):
     async def get_by_id(
             self,
             db: AsyncSession,
             item_id: int,
-            *load_options: Any
+            load_options: Optional[Tuple[Any]] = None
     ) -> Genre | None:
         if load_options is None:
-            load_options = (joinedload(Genre.books).joinedload(Book.changeable))
+            load_options = (
+                selectinload(Genre.books).joinedload(Book.changeable).load_only(BookChangeable.rating),
+            )
 
-        return await super().get_by_id(db, item_id, *load_options)
+        return await super().get_by_id(db, item_id, load_options)
 
     async def create(self, db: AsyncSession, data: GenreCreate):
         new_genre = Genre(

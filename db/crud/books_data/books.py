@@ -15,6 +15,8 @@ from db.models import (
 from db.schemas import BookCreate
 
 class BookCRUD(BaseCRUD[Book, BookCreate]):
+    default_load_options_for_get = ()
+
     async def get_paginate(
             self,
             db: AsyncSession,
@@ -52,7 +54,7 @@ class BookCRUD(BaseCRUD[Book, BookCreate]):
             self,
             db: AsyncSession,
             item_id: int,
-            *load_options: Any
+            load_options: Optional[Tuple[Any]] = None
     ) -> Book | None:
         if not load_options:
             load_options = (
@@ -64,7 +66,7 @@ class BookCRUD(BaseCRUD[Book, BookCreate]):
                 joinedload(Book.publisher).load_only(Publisher.name),
             )
 
-        return await super().get_by_id(db, item_id, *load_options)
+        return await super().get_by_id(db, item_id, load_options)
 
     async def create(self, db: AsyncSession, data: BookCreate) -> Book:
         book_data = data.model_dump(exclude={"author_ids", "genre_ids"})

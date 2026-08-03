@@ -15,6 +15,9 @@ ModelType = TypeVar("ModelType")
 CreateSchemaType = TypeVar("CreateSchemaType")
 
 class BaseCRUD(Generic[ModelType, CreateSchemaType]):
+    default_load_options_for_get = ()
+    default_load_options_for_list = ()
+
     def __init__(self, model: Type[ModelType]):
         self.model = model
 
@@ -52,14 +55,15 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType]):
             self,
             db: AsyncSession,
             item_id: int,
-            *load_options: Any
+            load_options: Optional[Tuple[Any]] = None
     ) -> Any | None:
         """Универсальная функция для получения записи по ID с опциональной подгрузкой."""
         pk = self.model.__table__.primary_key.columns.values()[0]
 
         query = select(self.model).where(pk == item_id)
-        for option in load_options:
-            query = query.options(option)
+        if load_options is not None:
+            for option in load_options:
+                query = query.options(option)
 
         result = await db.execute(query)
 

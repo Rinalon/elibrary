@@ -1,22 +1,24 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
-from db.models import Author, Book
+from db.models import Author, Book, BookChangeable
 from db.schemas import AuthorCreate
 from db.crud.base import BaseCRUD
-from typing import Any
+from typing import Any, Optional, Tuple
 
 class AuthorCRUD(BaseCRUD[Author, AuthorCreate]):
     async def get_by_id(
             self,
             db: AsyncSession,
             item_id: int,
-            *load_options: Any
+            load_options: Optional[Tuple[Any]] = None
     ) -> Author | None:
-        if load_options is None:
-            load_options = (selectinload(Author.books).joinedload(Book.changeable))
+        if not load_options:
+            load_options = (
+                selectinload(Author.books).joinedload(Book.changeable).load_only(BookChangeable.rating),
+            )
 
-        return await super().get_by_id(db, item_id, *load_options)
+        return await super().get_by_id(db, item_id, load_options)
 
     async def create(self, db: AsyncSession, data: AuthorCreate):
         new_author = Author(
