@@ -28,17 +28,17 @@ class BookCreate(BaseModel):
 # ====== Update ======
 class BookUpdate(BaseModel):
     """Схема для обновления книги"""
-    title: Optional[str] = Field(min_length=1, max_length=256)
+    title: Optional[str] = Field(None, min_length=1, max_length=256)
     description: Optional[str] = Field(None, max_length=1024)
-    year_of_publish: Optional[int] = Field(ge=0, le=datetime.now().year)
-    publisher_id: Optional[int]
-    language_id: Optional[int]
+    year_of_publish: Optional[int] = Field(None, ge=0, le=datetime.now().year)
+    publisher_id: Optional[int] = None
+    language_id: Optional[int] = None
     age_rating: Optional[AgeRating] = None
-    price: Optional[Decimal] = Field(ge=0)
+    price: Optional[Decimal] = Field(None, ge=0)
     text_url: Optional[str] = Field(None, max_length=256)
     cover_url: Optional[str] = Field(None, max_length=256)
-    author_ids: Optional[List[int]] = Field(min_length=1)
-    genre_ids: Optional[List[int]] = Field(min_length=1)
+    author_ids: Optional[List[int]] = Field(None, min_length=1)
+    genre_ids: Optional[List[int]] = Field(None, min_length=1)
 
 class UserBookUpdate(BaseModel):
     """Схема для обновлений прогресса чтения"""
