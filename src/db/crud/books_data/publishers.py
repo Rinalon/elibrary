@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from src.db.models import Publisher, Book, BookChangeable
-from src.db.schemas import PublisherCreate
+from src.db.schemas import PublisherCreate, PublisherUpdate
 from src.db.crud.base import BaseCRUD
 from typing import Any, Optional, Tuple
 
 
-class PublisherCRUD(BaseCRUD[Publisher, PublisherCreate]):
+class PublisherCRUD(BaseCRUD[Publisher, PublisherCreate, PublisherUpdate]):
     async def get_by_id(
             self,
             db: AsyncSession,

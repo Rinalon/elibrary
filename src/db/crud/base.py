@@ -1,6 +1,5 @@
-from sqlalchemy import select
+from sqlalchemy import select, update as sql_update
 from typing import (
-    Type,
     Any,
     TypeVar,
     Generic,
@@ -13,9 +12,10 @@ from sqlalchemy.sql.expression import ClauseElement
 
 ModelType = TypeVar("ModelType")
 CreateSchemaType = TypeVar("CreateSchemaType")
+UpdateSchemaType = TypeVar("UpdateSchemaType")
 
-class BaseCRUD(Generic[ModelType, CreateSchemaType]):
-    def __init__(self, model: Type[ModelType]):
+class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+    def __init__(self, model: ModelType):
         self.model = model
 
     async def get_all(self, db: AsyncSession) -> List[ModelType]:
@@ -53,7 +53,7 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType]):
             db: AsyncSession,
             item_id: int,
             load_options: Optional[Tuple[Any]] = None
-    ) -> Any | None:
+    ) -> ModelType | None:
         """Универсальная функция для получения записи по ID с опциональной подгрузкой."""
         pk = self.model.__table__.primary_key.columns.values()[0]
 
@@ -72,7 +72,7 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType]):
             self,
             db: AsyncSession,
             data: CreateSchemaType
-    ):
+    ) -> ModelType:
         """Универсальная функция создания"""
         new_item = self.model(data.model_dump())
 
@@ -81,3 +81,28 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType]):
         await db.refresh(new_item)
 
         return new_item
+
+    async def update(
+            self,
+            db: AsyncSession,
+            item_id: int,
+            data: UpdateSchemaType,
+            load_options: Optional[Tuple[Any]] = None,
+    ) -> ModelType | None:
+        """Универсальная функция обновления"""
+        pk = self.model.__table__.primary_key.columns.values()[0]
+
+        result = await db.execute(
+            sql_update(self.model)
+            .where(pk == item_id)
+            .values(data.model_dump(exclude_unset=True))
+            .returning(self.model)
+        )
+        await db.commit()
+
+        item = result.scalar_one_or_none()
+        if item and load_options:
+            return await self.get_by_id(db, item_id, load_options=load_options)
+
+        return item
+
