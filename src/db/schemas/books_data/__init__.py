@@ -1,6 +1,6 @@
 from src.db.schemas.books_data.books import (
     BookCreate,
-    BookEdit,
+    BookUpdate,
     UserBookUpdate,
     BookResponse,
     BookFilter,
@@ -9,7 +9,7 @@ from src.db.schemas.books_data.books import (
 
 from src.db.schemas.books_data.reviews import (
     ReviewCreate,
-    ReviewEdit,
+    ReviewUpdate,
     ReviewResponse
 )
 
@@ -18,19 +18,22 @@ from src.db.schemas.books_data.dictionaries import (
     LanguageCreate,
     PublisherResponse,
     PublisherShortResponse,
-    PublisherCreate
+    PublisherCreate,
+    PublisherUpdate
 )
 
 from src.db.schemas.books_data.genres import (
     GenreResponse,
     GenreShortResponse,
     GenreCreate,
+    GenreUpdate,
 )
 
 from src.db.schemas.books_data.authors import (
     AuthorShortResponse,
     AuthorResponse,
-    AuthorCreate
+    AuthorCreate,
+    AuthorUpdate,
 )
 
 
@@ -40,25 +43,13 @@ GenreResponse.model_rebuild()
 PublisherResponse.model_rebuild()
 
 __all__ = [
-    'BookCreate',
-    'BookEdit',
-    'UserBookUpdate',
-    'BookResponse',
-    'BookFilter',
-    'ReviewCreate',
-    'ReviewEdit',
-    'ReviewResponse',
-    'GenreResponse',
-    'AuthorResponse',
-    'LanguageResponse',
-    'PublisherResponse',
-    'GenreShortResponse',
-    'AuthorShortResponse',
-    'BookShortResponse',
-    'PublisherShortResponse',
-    'AuthorCreate',
-    'GenreCreate',
-    'PublisherCreate',
-    'LanguageCreate',
+    'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse',
+    'BookFilter', 'UserBookUpdate',
+    'ReviewCreate', 'ReviewUpdate', 'ReviewResponse',
+    'GenreResponse', 'GenreShortResponse', 'GenreCreate', 'GenreUpdate',
+    'AuthorResponse', 'AuthorShortResponse', 'AuthorCreate', 'AuthorUpdate',
+    'LanguageResponse', 'LanguageCreate',
+    'PublisherResponse', 'PublisherShortResponse', 'PublisherCreate',
+    'PublisherUpdate'
 ]
 

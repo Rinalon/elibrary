@@ -25,8 +25,8 @@ class BookCreate(BaseModel):
     author_ids: List[int] = Field(min_length=1)
     genre_ids: List[int] = Field(min_length=1)
 
-# ====== Update | Edit =====
-class BookEdit(BaseModel):
+# ====== Update ======
+class BookUpdate(BaseModel):
     """Схема для обновления книги"""
     title: Optional[str] = Field(min_length=1, max_length=256)
     description: Optional[str] = Field(None, max_length=1024)

@@ -1,10 +1,11 @@
 from src.db.schemas.books_data import (
-    BookCreate, BookEdit, UserBookUpdate,
+    BookCreate, BookUpdate, UserBookUpdate,
     BookResponse, BookFilter, ReviewCreate,
-    ReviewEdit, ReviewResponse, GenreResponse,
+    ReviewUpdate, ReviewResponse, GenreResponse,
     AuthorResponse, LanguageResponse, PublisherResponse,
     GenreShortResponse, AuthorShortResponse, BookShortResponse,
     PublisherShortResponse, AuthorCreate, GenreCreate, PublisherCreate, LanguageCreate,
+    AuthorUpdate, GenreUpdate, PublisherUpdate
 )
 from src.db.schemas.clients import (
     UserCreate, UserResponse, UserShortResponse,
@@ -19,13 +20,14 @@ from src.db.schemas.payments_data import (
 )
 
 __all__ = [
-    'BookCreate', 'BookEdit', 'UserBookUpdate',
-    'BookResponse', 'BookFilter', 'BookShortResponse',
-    'ReviewCreate', 'ReviewEdit', 'ReviewResponse',
-    'GenreResponse', 'GenreCreate',
-    'AuthorResponse', 'AuthorCreate',
-    'LanguageResponse', 'LanguageCreate',
+    'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse',
+    'BookFilter', 'UserBookUpdate',
+    'ReviewCreate', 'ReviewUpdate', 'ReviewResponse',
+    'GenreResponse', 'GenreShortResponse', 'GenreCreate', 'GenreUpdate',
+    'AuthorResponse', 'AuthorShortResponse', 'AuthorCreate', 'AuthorUpdate',
+    'LanguageResponse', 'LanguageCreate', 'PublisherUpdate',
     'PublisherResponse', 'PublisherShortResponse', 'PublisherCreate',
+
     'UserCreate', 'UserResponse', 'UserShortResponse', 'UserDataEdit', 'UserChangePass',
     'OrganisationCreate', 'OrganisationEdit', 'OrganisationResponse',
     'ContractCreate', 'ContractResponse', 'ContractShortResponse',

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, Field
 
 from src.db.schemas.response_base_model import ResponseModel
@@ -28,3 +28,7 @@ class PublisherResponse(ResponseModel):
 class PublisherCreate(BaseModel):
     name: str = Field(min_length=2, max_length=64)
     link: str = Field(min_length=2, max_length=256)
+
+class PublisherUpdate(BaseModel):
+    name: Optional[str] = Field(min_length=2, max_length=64)
+    link: Optional[str] = Field(min_length=2, max_length=256)

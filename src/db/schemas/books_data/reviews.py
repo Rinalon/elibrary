@@ -9,7 +9,7 @@ class ReviewCreate(BaseModel):
     review: Optional[str] = Field(None, max_length=4096)
     rating: int = Field(ge=0, le=5)
 
-class ReviewEdit(BaseModel):
+class ReviewUpdate(BaseModel):
     """Схема для редактирования отзыва"""
     review: Optional[str] = Field(None, max_length=4096)
     rating: int = Field(ge=0, le=5)

@@ -18,3 +18,9 @@ class GenreCreate(BaseModel):
     description: Optional[str] = Field(None, min_length=2, max_length=512)
     books: Optional[List[int]] = None
 
+class GenreUpdate(BaseModel):
+    title: Optional[str] = Field(min_length=2, max_length=32)
+    description: Optional[str] = Field(None, min_length=2, max_length=512)
+    books: Optional[List[int]] = None
+
+

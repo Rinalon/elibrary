@@ -22,3 +22,11 @@ class AuthorCreate(BaseModel):
     )
     books: Optional[List[int]] = None
 
+class AuthorUpdate(BaseModel):
+    author_name: Optional[str] = Field(min_length=2, max_length=256)
+    author_info: Optional[str] = Field(
+        None,
+        min_length=2,
+        max_length=1024
+    )
+    books: Optional[List[int]] = None
