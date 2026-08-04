@@ -1,0 +1,64 @@
+from src.db.schemas.books_data.books import (
+    BookCreate,
+    BookEdit,
+    UserBookUpdate,
+    BookResponse,
+    BookFilter,
+    BookShortResponse,
+)
+
+from src.db.schemas.books_data.reviews import (
+    ReviewCreate,
+    ReviewEdit,
+    ReviewResponse
+)
+
+from src.db.schemas.books_data.dictionaries import (
+    LanguageResponse,
+    LanguageCreate,
+    PublisherResponse,
+    PublisherShortResponse,
+    PublisherCreate
+)
+
+from src.db.schemas.books_data.genres import (
+    GenreResponse,
+    GenreShortResponse,
+    GenreCreate,
+)
+
+from src.db.schemas.books_data.authors import (
+    AuthorShortResponse,
+    AuthorResponse,
+    AuthorCreate
+)
+
+
+BookResponse.model_rebuild()
+AuthorResponse.model_rebuild()
+GenreResponse.model_rebuild()
+PublisherResponse.model_rebuild()
+
+__all__ = [
+    'BookCreate',
+    'BookEdit',
+    'UserBookUpdate',
+    'BookResponse',
+    'BookFilter',
+    'ReviewCreate',
+    'ReviewEdit',
+    'ReviewResponse',
+    'GenreResponse',
+    'AuthorResponse',
+    'LanguageResponse',
+    'PublisherResponse',
+    'GenreShortResponse',
+    'AuthorShortResponse',
+    'BookShortResponse',
+    'PublisherShortResponse',
+    'AuthorCreate',
+    'GenreCreate',
+    'PublisherCreate',
+    'LanguageCreate',
+]
+

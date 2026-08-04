@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 async def async_client():
     """Фикстура с переопределнием подключения к БД."""
     from main import app
-    from core import get_db, settings
+    from src.core import get_db, settings
 
     test_engine = create_async_engine(
         url=settings.database_url_async,

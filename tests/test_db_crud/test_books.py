@@ -1,6 +1,5 @@
-import pytest
-from db.crud import book_crud
-from db.schemas import BookCreate
+from db import book_crud
+from db import BookCreate
 from tests.data.book import base_book
 
 async def test_create_book_valid(db_session):
