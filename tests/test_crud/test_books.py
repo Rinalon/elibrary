@@ -1,6 +1,6 @@
 from src.db.crud import book_crud
 from src.db.schemas import BookCreate, BookUpdate
-from tests.data.book import base_book
+from tests.data.book import base_cu_book as base_book
 
 async def test_create_book_valid(db_session):
     data = BookCreate(**base_book)
@@ -19,4 +19,6 @@ async def test_update_book(db_session):
     assert book is not None
     assert book_id == book.book_id
     assert book.title != base_book["title"]
+    assert book.description == base_book["description"]
+
 
