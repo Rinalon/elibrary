@@ -1,3 +1,7 @@
+from cytoolz import remove
+
+from tests.data.utils import make_case
+
 base_book = {
     "title": "Айвенго",
     "description": "Один из первых исторических романов",
@@ -14,22 +18,33 @@ base_book = {
 
 BOOK_VALID_CASES = [
     ("full_fill", base_book),
-    ("min_fill", {
-        k: v for k, v in base_book.items() if k not in [
-            "description", "age_rating", "text_url", "cover_url"
-    ]}),
-    ("without_description", {k: v for k, v in base_book.items() if k != "description"}),
-    ("without_age_rating", {k: v for k, v in base_book.items() if k != "age_rating"}),
-    ("without_text_url", {k: v for k, v in base_book.items() if k != "text_url"}),
-    ("without_cover_url", {k: v for k, v in base_book.items() if k != "cover_url"})
+    ("min_fill", make_case(base_book, remove_keys=["description", "age_rating", "text_url", "cover_url"])),
+    ("without_description", make_case(base_book, remove_keys=["description"])),
+    ("without_age_rating",  make_case(base_book, remove_keys=["age_rating"])),
+    ("without_text_url",  make_case(base_book, remove_keys=["text_url"])),
+    ("without_cover_url",  make_case(base_book, remove_keys=["cover_url"]))
 ]
 
 BOOK_INVALID_CASES = [
-    ("missing_title", {k: v for k, v in base_book.items() if k != "title"}),
-    ("missing_year", {k: v for k, v in base_book.items() if k != "year_of_publish"}),
-    ("missing_publisher", {k: v for k, v in base_book.items() if k != "publisher_id"}),
-    ("missing_language", {k: v for k, v in base_book.items() if k != "language_id"}),
-    ("missing_price", {k: v for k, v in base_book.items() if k != "price"}),
-    ("missing_authors", {k: v for k, v in base_book.items() if k != "author_ids"}),
-    ("missing_genres", {k: v for k, v in base_book.items() if k != "genre_ids"}),
+    ("missing_title", make_case(base_book, remove_keys=["title"])),
+    ("missing_year", make_case(base_book, remove_keys=["year_of_publish"])),
+    ("missing_publisher", make_case(base_book, remove_keys=["publisher_id"])),
+    ("missing_language", make_case(base_book, remove_keys=["language_id"])),
+    ("missing_price", make_case(base_book, remove_keys=["price"])),
+    ("missing_authors", make_case(base_book, remove_keys=["author_ids"])),
+    ("missing_genres", make_case(base_book, remove_keys=["genre_ids"])),
+
+    ("short_title", make_case(base_book, updates={"title": ""})),
+    ("big_title", make_case(base_book, updates={"title": "a" * 257})),
+    ("big_description", make_case(base_book, updates={"description": "a" * 1025})),
+    ("negative_year", make_case(base_book, updates={"year_of_publish": -1})),
+    ("future_year", make_case(base_book, updates={"year_of_publish": 2116})),
+    ("no_publisher", make_case(base_book, updates={"publisher_id": None})),
+    ("no_language", make_case(base_book, updates={"language_id": None})),
+    ("unknown_age_rating", make_case(base_book, updates={"age_rating": "21+"})),
+    ("negative_price", make_case(base_book, updates={"price": -1})),
+    ("too_long_cover_url", make_case(base_book, updates={"cover_url": "a" * 257})),
+    ("too_long_text_url", make_case(base_book, updates={"text_url": "a" * 257})),
+    ("void_authors", make_case(base_book, updates={"author_ids": []})),
+    ("void_genres", make_case(base_book, updates={"genre_ids": []})),
 ]
