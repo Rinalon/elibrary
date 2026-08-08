@@ -2,6 +2,7 @@
 .test.env
 
 init_base.sql
+test_data.sql
 
 
 __pycache__/
