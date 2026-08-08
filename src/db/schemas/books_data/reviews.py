@@ -18,4 +18,4 @@ class ReviewResponse(ResponseModel):
     """Схема для получения отзыва"""
     user_name: str
     rating: int
-    review: Optional[str]
+    review: Optional[str] = None

@@ -77,15 +77,17 @@ class BookCRUD(BaseCRUD[Book, BookCreate, BookUpdate]):
 
         db.add(BookChangeable(book_id=new_book.book_id))
 
-        for author_id in data.author_ids:
-            await db.execute(
-                author_book.insert().values(author_id=author_id, book_id=new_book.book_id)
-            )
+        if data.author_ids:
+            for author_id in data.author_ids:
+                await db.execute(
+                    author_book.insert().values(author_id=author_id, book_id=new_book.book_id)
+                )
 
-        for genre_id in data.genre_ids:
-            await db.execute(
-                book_genre.insert().values(genre_id=genre_id, book_id=new_book.book_id)
-            )
+        if data.genre_ids:
+            for genre_id in data.genre_ids:
+                await db.execute(
+                    book_genre.insert().values(genre_id=genre_id, book_id=new_book.book_id)
+                )
 
         await db.commit()
         return await self.get_by_id(db, new_book.book_id)
@@ -99,7 +101,6 @@ class BookCRUD(BaseCRUD[Book, BookCreate, BookUpdate]):
     ) -> Book | None:
         load_options = load_options or self.full_load_options
 
-        extra_fields = ["genre_ids", "author_ids"]
         if data.author_ids:
             for author_id in data.author_ids:
                 await db.execute(

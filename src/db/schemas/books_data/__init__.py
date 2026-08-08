@@ -1,7 +1,6 @@
 from src.db.schemas.books_data.books import (
     BookCreate,
     BookUpdate,
-    UserBookUpdate,
     BookResponse,
     BookFilter,
     BookShortResponse,
@@ -44,7 +43,7 @@ PublisherResponse.model_rebuild()
 
 __all__ = [
     'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse',
-    'BookFilter', 'UserBookUpdate',
+    'BookFilter',
     'ReviewCreate', 'ReviewUpdate', 'ReviewResponse',
     'GenreResponse', 'GenreShortResponse', 'GenreCreate', 'GenreUpdate',
     'AuthorResponse', 'AuthorShortResponse', 'AuthorCreate', 'AuthorUpdate',

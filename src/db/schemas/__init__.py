@@ -1,5 +1,5 @@
 from src.db.schemas.books_data import (
-    BookCreate, BookUpdate, UserBookUpdate,
+    BookCreate, BookUpdate,
     BookResponse, BookFilter, ReviewCreate,
     ReviewUpdate, ReviewResponse, GenreResponse,
     AuthorResponse, LanguageResponse, PublisherResponse,
@@ -21,7 +21,7 @@ from src.db.schemas.payments_data import (
 
 __all__ = [
     'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse',
-    'BookFilter', 'UserBookUpdate',
+    'BookFilter',
     'ReviewCreate', 'ReviewUpdate', 'ReviewResponse',
     'GenreResponse', 'GenreShortResponse', 'GenreCreate', 'GenreUpdate',
     'AuthorResponse', 'AuthorShortResponse', 'AuthorCreate', 'AuthorUpdate',

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, model_validator
 from datetime import datetime
 from typing import Optional, List
 from decimal import Decimal
@@ -22,8 +22,8 @@ class BookCreate(BaseModel):
     price: Decimal = Field(ge=0)
     text_url: Optional[str] = Field(None, max_length=256)
     cover_url: Optional[str] = Field(None, max_length=256)
-    author_ids: List[int] = Field(min_length=1)
-    genre_ids: List[int] = Field(min_length=1)
+    author_ids: Optional[List[int]] = Field(None)
+    genre_ids: Optional[List[int]] = Field(None)
 
 # ====== Update ======
 class BookUpdate(BaseModel):
@@ -40,16 +40,12 @@ class BookUpdate(BaseModel):
     author_ids: Optional[List[int]] = Field(None, min_length=1)
     genre_ids: Optional[List[int]] = Field(None, min_length=1)
 
-class UserBookUpdate(BaseModel):
-    """Схема для обновлений прогресса чтения"""
-    percentage: float = Field(ge=0, le=100)
-
 # ====== Response =====
 class BookShortResponse(ResponseModel):
     """Схема для получения части информации о книге"""
     book_id: int
     title: str
-    cover_url: Optional[str] = Field(None, max_length=256)
+    cover_url: Optional[str] = None
     rating: Optional[float] = None
 
 class BookResponse(ResponseModel):
@@ -63,8 +59,8 @@ class BookResponse(ResponseModel):
     text_url: Optional[str] = None
     rating: Optional[float] = None
     watched: int
-    language: Optional[str] = Field(None, alias="language_name")
-    publisher: Optional[str] = Field(None, alias="publisher_name")
+    language: str = Field(alias="language_name")
+    publisher: str = Field(alias="publisher_name")
     authors: Optional[List["AuthorShortResponse"]] = None
     genres: Optional[List["GenreShortResponse"]] = None
     reviews: Optional[List["ReviewResponse"]] = None
@@ -73,7 +69,7 @@ class BookResponse(ResponseModel):
 # ====== Filter =====
 class BookFilter(ResponseModel):
     """Схема для фильтрации книг"""
-    title: Optional[str] = None
+    title: Optional[str] = Field(None, min_length=1, max_length=256)
     author_id: Optional[int] = None
     genre_id: Optional[int] = None
     publisher_id: Optional[int] = None
@@ -84,12 +80,9 @@ class BookFilter(ResponseModel):
     limit: int = Field(10, ge=5, le=20)
     offset: int = Field(0, ge=0)
 
-    @field_validator("min_price", "max_price")
-    @classmethod
-    def validate_price_range(cls, v: Optional[Decimal], info) -> Optional[Decimal]:
-        if info.data.get("min_price") and info.data.get("max_price"):
-            if info.data["min_price"] > info.data["max_price"]:
+    @model_validator(mode="after")
+    def validate_price_range(self) -> Optional[Decimal]:
+        if self.min_price and self.max_price:
+            if self.min_price > self.max_price:
                 raise ValueError("min_price must be <= max_price")
-        return v
-
 
