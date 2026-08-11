@@ -5,19 +5,11 @@ from src.db.schemas.response_base_model import ResponseModel
 
 class OrganisationCreate(BaseModel):
     owner_id: int = Field(alias="creator", ge=1)
-    organisation_name: str = Field(
-        alias="name",
-        min_length=5,
-        max_length=64
-    )
+    organisation_name: str = Field(min_length=5, max_length=64)
     members: Optional[list[int]]
 
-class OrganisationEdit(BaseModel):
-    organisation_name: Optional[str] = Field(
-        alias="name",
-        min_length=5,
-        max_length=64
-    )
+class OrganisationUpdate(BaseModel):
+    organisation_name: Optional[str] = Field(min_length=5, max_length=64)
     members: Optional[List["UserShortResponse"]]
 
 class OrganisationResponse(ResponseModel):

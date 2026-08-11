@@ -9,29 +9,29 @@ from src.db.schemas.books_data import (
 )
 from src.db.schemas.clients import (
     UserCreate, UserResponse, UserShortResponse,
-    UserDataEdit, UserChangePass, OrganisationCreate,
-    OrganisationEdit, OrganisationResponse,
+    UserDataUpdate, UserChangePass, OrganisationCreate,
+    OrganisationUpdate, OrganisationResponse,
 )
 from src.db.schemas.payments_data import (
     ContractCreate, ContractResponse, ContractShortResponse,
-    SubscribeTypeCreate, SubscribeEdit, SubscribeTypeResponse,
+    SubscribeTypeCreate, SubscribeUpdate, SubscribeTypeResponse,
     ChequeCreate, ChequeResponse, ChequeItemBase, ChequeBookItem,
     ChequeContractItem,
 )
 
 __all__ = [
-    'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse',
-    'BookFilter', 'LanguageUpdate',
+    'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse','BookFilter',
     'ReviewCreate', 'ReviewUpdate', 'ReviewResponse',
     'GenreResponse', 'GenreShortResponse', 'GenreCreate', 'GenreUpdate',
     'AuthorResponse', 'AuthorShortResponse', 'AuthorCreate', 'AuthorUpdate',
-    'LanguageResponse', 'LanguageCreate', 'PublisherUpdate',
-    'PublisherResponse', 'PublisherShortResponse', 'PublisherCreate',
+    'LanguageResponse', 'LanguageCreate', 'LanguageUpdate',
+    'PublisherUpdate', 'PublisherResponse', 'PublisherShortResponse', 'PublisherCreate',
 
-    'UserCreate', 'UserResponse', 'UserShortResponse', 'UserDataEdit', 'UserChangePass',
-    'OrganisationCreate', 'OrganisationEdit', 'OrganisationResponse',
+    'UserCreate', 'UserResponse', 'UserShortResponse', 'UserDataUpdate', 'UserChangePass',
+    'OrganisationCreate', 'OrganisationUpdate', 'OrganisationResponse',
+
     'ContractCreate', 'ContractResponse', 'ContractShortResponse',
-    'SubscribeTypeCreate', 'SubscribeEdit', 'SubscribeTypeResponse',
+    'SubscribeTypeCreate', 'SubscribeUpdate', 'SubscribeTypeResponse',
     'ChequeCreate', 'ChequeResponse',
     'ChequeItemBase', 'ChequeBookItem', 'ChequeContractItem',
 ]

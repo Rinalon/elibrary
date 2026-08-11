@@ -2,25 +2,23 @@ from src.db.schemas.clients.users import (
     UserCreate,
     UserResponse,
     UserShortResponse,
-    UserDataEdit,
+    UserDataUpdate,
     UserChangePass
 )
 
 from src.db.schemas.clients.organisations import (
     OrganisationCreate,
-    OrganisationEdit,
+    OrganisationUpdate,
     OrganisationResponse
 )
-
-#from auth import () TODO: доделать
 
 __all__ = [
     'UserCreate',
     'UserResponse',
     'UserShortResponse',
-    'UserDataEdit',
+    'UserDataUpdate',
     'UserChangePass',
     'OrganisationCreate',
-    'OrganisationEdit',
+    'OrganisationUpdate',
     'OrganisationResponse',
 ]

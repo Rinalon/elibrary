@@ -97,8 +97,8 @@ class UserShortResponse(ResponseModel):
     surname: Optional[str] = None
     second_name: Optional[str] = None
 
-# ====== Edit =====
-class UserDataEdit(BaseModel):
+# ====== Update =====
+class UserDataUpdate(BaseModel):
     """Схема для обновления данных"""
     nickname: Optional[str] = Field(None, min_length=2, max_length=512)
     email: Optional[EmailStr] = None

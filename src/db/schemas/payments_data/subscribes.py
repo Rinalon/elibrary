@@ -13,14 +13,14 @@ class SubscribeTypeCreate(BaseModel):
     duration_days: int = Field(ge=1)
     book_ids: list[int]
 
-# ====== Edit =====
-class SubscribeEdit(BaseModel):
+# ====== Update =====
+class SubscribeUpdate(BaseModel):
     """Схема для изменения подписки"""
-    title: Optional[str] = Field(min_length=1, max_length=64)
+    title: Optional[str] = Field(None, min_length=1, max_length=64)
     info: Optional[str] = Field(None, max_length=512)
-    price: Optional[Decimal] = Field(ge=0)
-    duration_days: Optional[int] = Field(ge=1)
-    book_ids: Optional[list[int]]
+    price: Optional[Decimal] = Field(None, ge=0)
+    duration_days: Optional[int] = Field(None, ge=1)
+    book_ids: Optional[list[int]] = None
 
 # ====== Response =====
 class SubscribeTypeResponse(ResponseModel):

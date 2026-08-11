@@ -5,7 +5,7 @@ from src.db.schemas.payments_data.contracts import (
 )
 from src.db.schemas.payments_data.subscribes import (
     SubscribeTypeCreate,
-    SubscribeEdit,
+    SubscribeUpdate,
     SubscribeTypeResponse,
 )
 from src.db.schemas.payments_data.cheques import (
@@ -21,7 +21,7 @@ __all__ = [
     'ContractResponse',
     'ContractShortResponse',
     'SubscribeTypeCreate',
-    'SubscribeEdit',
+    'SubscribeUpdate',
     'SubscribeTypeResponse',
     'ChequeCreate',
     'ChequeResponse',
