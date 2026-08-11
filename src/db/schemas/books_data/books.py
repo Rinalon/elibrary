@@ -1,11 +1,11 @@
 from __future__ import annotations
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
 from typing import Optional, List
 from decimal import Decimal
 from src.db.models.base import AgeRating
-from src.db.schemas.response_base_model import ResponseModel
 
+from src.db.schemas.response_base_model import ResponseModel
 from src.db.schemas.books_data.authors import AuthorShortResponse
 from src.db.schemas.books_data.genres import GenreShortResponse
 from src.db.schemas.books_data.reviews import ReviewResponse
@@ -84,5 +84,4 @@ class BookFilter(ResponseModel):
     def validate_price_range(self) -> Optional[Decimal]:
         if self.min_price and self.max_price:
             if self.min_price > self.max_price:
-                raise ValueError("min_price must be <= max_price")
-
+                raise ValidationError("min_price must be <= max_price")

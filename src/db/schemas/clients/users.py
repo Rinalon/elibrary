@@ -3,7 +3,8 @@ from pydantic import (
     EmailStr,
     Field,
     field_validator,
-    model_validator
+    model_validator,
+    ValidationError
 )
 from datetime import date, datetime
 from typing import Optional
@@ -18,7 +19,7 @@ class UserLogin(BaseModel):
     @model_validator(mode="after")
     def have_login_data(self):
         if not (self.login or self.email or self.phone):
-            raise ValueError("Must have login, email or phone")
+            raise ValidationError("Must have login, email or phone")
         return self
 
 # ====== Create =====
@@ -44,7 +45,7 @@ class UserCreate(BaseModel):
     def validate_nickname(cls, v):
         """Валидация псевдонима для пользователя"""
         if v.isdigit():
-            raise ValueError("Nickname must have at least one letter")
+            raise ValidationError("Nickname must have at least one letter")
         return v
 
     @field_validator("password")
@@ -52,9 +53,9 @@ class UserCreate(BaseModel):
     def validate_password(cls, v: str):
         """Дополнительная валидация пароля"""
         if not any(c.isdigit() for c in v):
-            raise ValueError("Password must contain at least one digit")
+            raise ValidationError("Password must contain at least one digit")
         if not any(c.isupper() for c in v):
-            raise ValueError("Password must contain at least one uppercase letter")
+            raise ValidationError("Password must contain at least one uppercase letter")
         return v
 
     @model_validator(mode="after")
@@ -62,7 +63,7 @@ class UserCreate(BaseModel):
         """Проверка, что введён или email, или phonenumber"""
 
         if self.email is None and self.phonenumber is None:
-            raise ValueError("Must specify either email or phonenumber")
+            raise ValidationError("Must specify either email or phonenumber")
 
         return self
 
@@ -117,18 +118,18 @@ class UserChangePass(BaseModel):
     def validate_password(cls, v: str) -> str:
         """Дополнительная валидация пароля"""
         if not any(c.isdigit() for c in v):
-            raise ValueError("Password must contain at least one digit")
+            raise ValidationError("Password must contain at least one digit")
         if not any(c.isupper() for c in v):
-            raise ValueError("Password must contain at least one uppercase letter")
+            raise ValidationError("Password must contain at least one uppercase letter")
         return v
 
     @model_validator(mode="after")
     def check_passwords_match(self):
         """Проверка совпадения паролей"""
         if self.old_password == self.new_password:
-            raise ValueError("Old and new passwords must be different")
+            raise ValidationError("Old and new passwords must be different")
 
         if self.new_password != self.confirm_password:
-            raise ValueError("Passwords must match")
+            raise ValidationError("Passwords must match")
 
         return self
