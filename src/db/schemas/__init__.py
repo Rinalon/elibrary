@@ -1,11 +1,11 @@
 from src.db.schemas.books_data import (
-    BookCreate, BookUpdate,
-    BookResponse, BookFilter, ReviewCreate,
-    ReviewUpdate, ReviewResponse, GenreResponse,
+    BookCreate, BookResponse, BookUpdate,
+    BookFilter, ReviewCreate, ReviewResponse,
+    ReviewUpdate, GenreResponse,
     AuthorResponse, LanguageResponse, PublisherResponse,
     GenreShortResponse, AuthorShortResponse, BookShortResponse,
     PublisherShortResponse, AuthorCreate, GenreCreate, PublisherCreate, LanguageCreate,
-    AuthorUpdate, GenreUpdate, PublisherUpdate
+    AuthorUpdate, GenreUpdate, PublisherUpdate, LanguageUpdate
 )
 from src.db.schemas.clients import (
     UserCreate, UserResponse, UserShortResponse,
@@ -21,7 +21,7 @@ from src.db.schemas.payments_data import (
 
 __all__ = [
     'BookCreate','BookUpdate', 'BookResponse', 'BookShortResponse',
-    'BookFilter',
+    'BookFilter', 'LanguageUpdate',
     'ReviewCreate', 'ReviewUpdate', 'ReviewResponse',
     'GenreResponse', 'GenreShortResponse', 'GenreCreate', 'GenreUpdate',
     'AuthorResponse', 'AuthorShortResponse', 'AuthorCreate', 'AuthorUpdate',

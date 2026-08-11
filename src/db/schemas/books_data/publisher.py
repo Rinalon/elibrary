@@ -4,16 +4,6 @@ from pydantic import BaseModel, Field
 
 from src.db.schemas.response_base_model import ResponseModel
 
-# ===== Language =====
-class LanguageResponse(ResponseModel):
-    """Схема для получения языка"""
-    language_id: int
-    title: str
-
-class LanguageCreate(BaseModel):
-    title: str = Field(min_length=2, max_length=32)
-
-# ===== Publisher =====
 class PublisherShortResponse(ResponseModel):
     """Схема для получения данных об издателе"""
     publisher_id: int
