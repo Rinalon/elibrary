@@ -10,6 +10,7 @@ def create_crud_router(
         response_schema: Type,
         create_schema: Type,
         short_response_schema: Optional[Type] = None,
+        update_schema: Optional[Type] = None,
         paginated: bool = True,
 ):
     """
@@ -21,12 +22,14 @@ def create_crud_router(
     :param response_schema: Полная схема ответа (BookResponse, ...)
     :param short_response_schema: Краткая схема для списка (BookShortResponse, ...)
     :param create_schema: Схема для создания (BookCreate, ...)
+    :param update_schema: Схема для обновления (BookUpdate, ...)
     :param paginated: Использовать пагинацию (True/False)
     """
+
     router = APIRouter(prefix=prefix, tags=[tag])
     crud_instance = crud_class
 
-    # 1. GET / (список)
+    # 1. GET /
     if paginated:
         @router.get("/", response_model=List[short_response_schema], response_model_exclude_none=True)
         async def get_all(
@@ -69,6 +72,19 @@ def create_crud_router(
         try:
             new_item = await crud_instance.create(db, data)
             return new_item
+        except Exception as e:
+            raise HTTPException(500, str(e))
+
+    # 4. PATCH /{id}
+    @router.patch("/{id}", response_model=response_schema, response_model_exclude_none=True)
+    async def update_one(
+            id: int,
+            data: update_schema,
+            db: AsyncSession = Depends(get_db)
+    ):
+        try:
+            updated_item = await crud_instance.update(db, id, data)
+            return updated_item
         except Exception as e:
             raise HTTPException(500, str(e))
 

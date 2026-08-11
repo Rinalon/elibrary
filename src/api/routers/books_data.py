@@ -1,20 +1,8 @@
 from fastapi import APIRouter
 
 from src.api.routers.factory import create_crud_router
-from src.db.crud import (
-    book_crud,
-    author_crud,
-    genre_crud,
-    publisher_crud,
-    language_crud
-)
-from src.db.schemas import (
-    BookCreate, BookShortResponse, BookResponse,
-    AuthorCreate,  AuthorShortResponse, AuthorResponse,
-    GenreCreate, GenreShortResponse, GenreResponse,
-    PublisherCreate, PublisherShortResponse, PublisherResponse,
-    LanguageCreate,  LanguageResponse
-)
+from src.db.crud.books_data import *
+from src.db.schemas.books_data import *
 
 books_router = create_crud_router(
         prefix="/books",
@@ -23,6 +11,7 @@ books_router = create_crud_router(
         response_schema=BookResponse,
         short_response_schema=BookShortResponse,
         create_schema=BookCreate,
+        update_schema=BookUpdate,
         paginated=True,
 )
 
@@ -33,6 +22,7 @@ authors_router = create_crud_router(
     response_schema=AuthorResponse,
     short_response_schema=AuthorShortResponse,
     create_schema=AuthorCreate,
+    update_schema=AuthorUpdate,
     paginated=True,
 )
 
@@ -43,6 +33,7 @@ genres_router = create_crud_router(
     response_schema=GenreResponse,
     short_response_schema=GenreShortResponse,
     create_schema=GenreCreate,
+    update_schema=GenreUpdate,
     paginated=False,
 )
 
@@ -53,6 +44,7 @@ publishers_router = create_crud_router(
     response_schema=PublisherResponse,
     short_response_schema=PublisherShortResponse,
     create_schema=PublisherCreate,
+    update_schema=PublisherUpdate,
     paginated=False,
 )
 
@@ -63,6 +55,7 @@ language_router = create_crud_router(
     response_schema=LanguageResponse,
     short_response_schema=LanguageResponse,
     create_schema=LanguageCreate,
+    update_schema=LanguageUpdate,
     paginated=False,
 )
 
