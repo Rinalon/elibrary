@@ -9,6 +9,8 @@ from typing import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.expression import ClauseElement
+from sqlalchemy.exc import IntegrityError
+from src.core.exceptions import NotFoundError, ConflictError
 
 ModelType = TypeVar("ModelType")
 CreateSchemaType = TypeVar("CreateSchemaType")
@@ -17,6 +19,14 @@ UpdateSchemaType = TypeVar("UpdateSchemaType")
 class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: ModelType):
         self.model = model
+
+    def _integrity_error_parser(self, error: IntegrityError):
+        msg = str(error.orig)
+        if "duplicate key" in msg:
+            raise ConflictError(f"{self.model.__name__} already exists")
+        if "foreign key" in msg:
+            raise ConflictError("Referenced resource does not exist")
+        raise
 
     async def get_all(self, db: AsyncSession) -> List[ModelType]:
         result = await db.execute(select(self.model))
@@ -65,8 +75,14 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         result = await db.execute(query)
 
         if load_options:
-            return result.unique().scalar_one_or_none()
-        return result.scalar_one_or_none()
+            result = result.unique().scalar_one_or_none()
+        else:
+            result = result.scalar_one_or_none()
+
+        if result is None:
+            raise NotFoundError(f"{self.model.__name__} not found")
+
+        return result
 
     async def create(
             self,
@@ -77,10 +93,12 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         new_item = self.model(data.model_dump())
 
         db.add(new_item)
-        await db.commit()
-        await db.refresh(new_item)
-
-        return new_item
+        try:
+            await db.commit()
+            await db.refresh(new_item)
+            return new_item
+        except IntegrityError as e:
+            self._integrity_error_parser(e)
 
     async def update(
             self,
@@ -99,10 +117,11 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             .returning(self.model)
         )
         await db.commit()
+        try:
+            item = result.scalar_one_or_none()
+            if item and load_options:
+                return await self.get_by_id(db, item_id, load_options=load_options)
 
-        item = result.scalar_one_or_none()
-        if item and load_options:
-            return await self.get_by_id(db, item_id, load_options=load_options)
-
-        return item
-
+            return item
+        except IntegrityError as e:
+            self._integrity_error_parser(e)
